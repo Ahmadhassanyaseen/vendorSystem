@@ -1,0 +1,160 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+    <head> 
+        <meta charset="utf-8"/> 
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/> 
+        <link href="tailwind_theme/tailwind.css" rel="stylesheet" type="text/css"/>
+        <script>/* Pinegrow Interactions, do not remove */ (function(){try{if(!document.documentElement.hasAttribute('data-pg-ia-disabled')) { window.pgia_small_mq=typeof pgia_small_mq=='string'?pgia_small_mq:'(max-width:767px)';window.pgia_large_mq=typeof pgia_large_mq=='string'?pgia_large_mq:'(min-width:768px)';var style = document.createElement('style');var pgcss='html:not(.pg-ia-no-preview) [data-pg-ia-hide=""] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show=""] {opacity:1;visibility:visible;display:block;}';if(document.documentElement.hasAttribute('data-pg-id') && document.documentElement.hasAttribute('data-pg-mobile')) {pgia_small_mq='(min-width:0)';pgia_large_mq='(min-width:99999px)'} pgcss+='@media ' + pgia_small_mq + '{ html:not(.pg-ia-no-preview) [data-pg-ia-hide="mobile"] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show="mobile"] {opacity:1;visibility:visible;display:block;}}';pgcss+='@media ' + pgia_large_mq + '{html:not(.pg-ia-no-preview) [data-pg-ia-hide="desktop"] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show="desktop"] {opacity:1;visibility:visible;display:block;}}';style.innerHTML=pgcss;document.querySelector('head').appendChild(style);}}catch(e){console&&console.log(e);}})()</script>
+        <title>client_quote_from_vendor</title>
+        <link rel="icon" href="images/ico.jpg" type="image/jpeg">
+    </head>     
+    <body class="text-left"> 
+        <div class="container mx-auto px-4"> 
+            <div class="-mx-4 border-b-2 flex flex-wrap h-auto"> 
+                <div class="pl-4 pr-0 w-auto">
+                    <img src="images/Logo-Image.png" class="w-1/2"> 
+                </div>                 
+                <div class="mt-0 mx-auto pb-10 pt-0 px-4 shadow-md text-right w-6/12">
+                    <div class="border-b-2 mx-auto">
+                        <h2 class="mt-14 text-3xl w-7/12"><b class="text-LogoBlue-500">$LBL_VENDOR</b></h2>
+                    </div>
+                    <div>
+                        <p><b class="h-auto mx-auto w-auto">FORMAL QUOTE - ID #&nbsp; $lead_opertunityid_c</b></p>
+                    </div>
+                </div>
+            </div>             
+        </div>
+        <div class="mt-5 mx-auto">
+            <h2 class="font-extrabold mx-auto text-4xl text-LogoGold-500 text-center text-dfca8b-500 uppercase">You Sent a Formal Quote!&nbsp;</h2>
+            <h2 class="font-normal italic mx-auto text-center text-gray-400 text-xl uppercase">Would You Like To Send Another Quote?</h2>
+        </div>
+        <div class="container h-auto mt-8 mx-auto pt-8 px-4 shadow-2xl"> 
+            <div class="-mx-4 flex flex-wrap"> 
+                <div class="pl-0 text-left w-full md:w-1/2">
+                    <div class="mx-auto">
+                        <h2 class="font-semibold h-auto ml-24 mr-auto text-3xl text-65d5e2-500 text-LogoBlue-500 text-center w-auto">TRIP DETAILS</h2>
+                        <h2 class="font-bold ml-24 pt-6 text-gray-400">Event Date :&nbsp;$lead_eventdate_c</h2>
+                        <h2 class="font-bold ml-24 pt-6 text-gray-400">Event Type :&nbsp;$lead_eventtype_c</h2>
+                        <h2 class="font-bold ml-24 pt-6 text-gray-400">Pickup Time : $lead_pickuptime_c</h2>
+                        <h2 class="font-bold ml-24 pt-6 text-gray-400">Hours : $lead_servicelength_c Hours</h2>
+                        <h2 class="font-bold ml-24 pt-6 text-gray-400">Passenger Count : $lead_numberofpassengers_c<br><br><br></h2>
+                    </div>                     
+                </div>                 
+            </div>             
+        </div>
+        <div class="flex flex-no-wrap items-center max-w-screen-2xl mx-auto pb-0 pt-10"> 
+            <div class="bg-gray-500 flex-grow h-px max-w-full"></div>             
+            <div class="px-10 w-auto"> 
+                <h2 class="font-semibold text-2xl uppercase"><b class="mx-auto text-4xl text-LogoGold-500 text-dfca8b-500">Vehicle Quoted</b></h2> 
+            </div>             
+            <div class="bg-gray-500 flex-grow h-px max-w-full"></div>             
+        </div>
+        <div class="container mt-10 mx-auto px-4 shadow-2xl"> 
+            <div class="-mx-4 flex flex-wrap pt-10"> 
+                <div class="px-4 w-full md:w-1/2">
+                    <img src="images/36-passenger-party-bus-out.jpg" class="h-auto mx-auto w-auto">
+                    <p class="mx-auto pt-10 w-80">Vehicle Type :&nbsp;&nbsp;$vnd_vehicle_name</p>
+                    <p class="mx-auto pt-0 w-80">Vehicle Year :&nbsp; &nbsp;$leads_vechiles_year_c</p>
+                    <p class="mx-auto pt-0 w-80">Vehicle Make :&nbsp;&nbsp;$leads_vechiles_make_c</p>
+                    <p class="mx-auto pt-0 w-80">Vehicle Model :&nbsp;&nbsp;$leads_vechiles_model_c</p> 
+                    <div class="mt-5 text-center">
+                        <p class="font-bold text-yellow-500 uppercase">Send Another Quote?</p>
+                        <p class="text-gray-400 uppercase">PLEASE SELECT ANOTHER VEHICLE YOU WOULD LIKE TO QUOTE</p>
+                    </div>
+                    <div class="mt-5 text-center">
+                        <form>
+                            <select name="Select a Vechicle" value="Select a Vechicle" data-pg-name="Select a Vechicle" title="Select a Vechicle" id="Select a Vechicle" class="w-3/5" multiple="multiple">
+                                <option value="Select a Vechicle" data-pg-name="Select a Vechicle" class="bg-yellow-200">Select or Add a Vechicle</option>
+                            </select>
+                        </form>
+                        <div><a href="https://unlimitedcharters.com/vendor"><button class="bg-yellow-50 border-2 border-gray-900 italic mt-5 px-5 shadow-gray-600 shadow-md text-lg uppercase" type="submit" name="add_new_vehicle">Add New Vehicle</button></a>
+                        </div>
+                    </div>
+                </div>                 
+                <div class="px-4 w-full md:w-1/2">
+                    <img src="images/map.png" class="mx-auto">
+                    <div>
+                        <div class="container mx-auto px-4"> 
+                            <div class="-mx-4 flex flex-wrap text-center"> 
+                                <div class="px-4 w-full md:w-1/2">
+                                    <p>Distance :&nbsp;</p> 
+                                </div>                                 
+                                <div class="px-4 w-full md:w-1/2">
+                                    <p>Mileage :&nbsp;</p> 
+                                </div>                                 
+                            </div>                             
+                        </div>
+                    </div>                     
+                </div>                 
+            </div>             
+            <div class="my-10">
+                <div class="mt-16 mx-auto w-10/12">
+                    <h3 class="font-bold italic text-3xl text-LogoBlue-500 uppercase">Pickup</h3>
+                    <pre class="font-extrabold mt-5 text-gray-400">$lead_pickuplocation_c</pre>
+                    <h3 class="font-bold italic mt-10 text-3xl text-LogoBlue-500 uppercase">Destination</h3>
+                    <pre class="font-extrabold mt-5 text-gray-400">$lead_location_c</pre>
+                    <h3 class="font-bold italic mt-10 text-3xl text-LogoBlue-500 uppercase">Client Itinerary</h3>
+                    <pre class="font-extrabold mt-5 text-gray-400">$leads_clientnotes_c</pre>
+                </div>
+                <div><br><br><br><br>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-no-wrap items-center max-w-screen-2xl mx-auto pb-4 pt-10"> 
+            <div class="bg-gray-500 flex-grow h-px max-w-full"></div>             
+            <div class="px-10 w-auto"> 
+                <h2 class="font-semibold text-2xl uppercase"><b class="mx-auto text-4xl text-LogoGold-500 text-dfca8b-500">Vehicle Quote</b></h2> 
+            </div>
+            <div class="bg-gray-500 flex-grow h-px max-w-full"></div>             
+        </div>
+        <div class="border-2 mx-auto my-10 shadow-2xl text-left w-8/12">
+            <div class="mx-auto">
+                <h2 class="font-bold mx-auto pt-6 text-2xl text-LogoBlue-500 text-center uppercase">As per rates you set in the vendor system:</h2>
+                <h2 class="font-bold mx-auto pt-0 text-2xl text-center text-yellow-500 uppercase"><a href="https://unlimitedcharters.com/vendor" target="_blank" class="text-base">(update / Change your Future Rates - Click Here)</a></h2>
+                <h2 class="font-bold mx-auto pt-6 px-10 text-2xl text-gray-400 text-left">Hourly Rate @ $$vnd_rate_c Per Hour</h2>
+                <h2 class="font-bold ml-10 pt-6 text-2xl text-gray-400">+ Fuel : $$vnd_fuel_c</h2>
+                <h2 class="font-bold ml-10 pt-6 text-2xl text-gray-400">+ Mileage : $$vnd_lead_mileage_c</h2>
+                <h2 class="font-bold ml-10 pt-6 text-2xl text-gray-400">+ Gratuity : $$vnd_gratuity_c</h2>
+                <h2 class="font-bold ml-10 mr-auto pt-6 text-2xl text-gray-900">Subtotal :&nbsp;$$vnd_lead_quoted_c</h2>
+                <h2 class="font-extrabold mx-auto pt-6 text-3xl text-65d5e2-500 text-LogoBlue-500 text-center">TOTAL TRIP COST : $$vnd_total_trip_cost_c<div><a href="https://unlimitedcharters.com/vendor/system/vendor_confirmed_pricing.html"><button class="animate-bounce bg-65d5e2-500 bg-LogoGold-500 border-2 border-65d5e2-500 border-LogoGold-500 leading-normal mt-12 mx-auto px-10 rounded-full shadow-gray-900 shadow-md text-3xl text-center text-gray-50 uppercase" name="Reserve Now" type="button">Send As Is</button></a>
+                    </div><br><br></h2>
+            </div>
+        </div>
+        <div class="flex flex-no-wrap items-center max-w-screen-2xl mx-auto pb-0 pt-10"> 
+            <div class="bg-gray-500 flex-grow h-px max-w-full"></div>             
+            <div class="px-10 w-auto"> 
+                <h2 class="font-semibold text-2xl uppercase"><b class="mx-auto text-4xl text-LogoGold-500 text-dfca8b-500">Need To Update Pricing?</b></h2> 
+            </div>
+            <div class="bg-gray-500 flex-grow h-px max-w-full"></div>             
+        </div>
+        <div class="mt-10">
+</div>
+        <section class="bg-white pb-20 pt-0 text-gray-500">
+            <div class="font-normal mx-auto pt-10 px-10 shadow-2xl text-center w-10/12">
+                <div class="mx-auto shadow-2xl">
+                    <p class="font-extrabold leading-loose mt-10 mx-auto text-4xl text-LogoBlue-500 text-center uppercase">Update the total trip cost.<p class="font-bold mx-auto text-2xl text-red-500">*** Please Provide an all inclusive pricing ***</p><p class="font-normal mt-1 mx-auto text-red-500 text-xl">(fuel, mileage, gratuity, tax, etc.)</p><div class="mb-10 mt-5 mx-auto">
+                            <input name="vnd_updated_pricing" placeholder="$ New Pricing" class="bg-yellow-100 italic text-xl w-auto">
+                        </div><div class="font-normal mx-auto pb-10">
+                            <button name="Update Pricing" class="bg-yellow-300 border-2 border-gray-900 font-semibold px-5 shadow-gray-500 shadow-md text-xl uppercase" type="submit">Update Pricing</button>
+                        </div></p>
+                </div>
+                <div class="text-4xl">
+</div>
+                <br>
+                <p class="font-medium leading-loose text-4xl text-center"></p>
+                <p class="font-normal italic leading-loose mx-auto text-4xl text-center">&nbsp;If you have any questions, feel free reply to this email.&nbsp;</p>
+                <p class="font-light leading-loose mx-auto text-4xl text-center">Or Call Us - 855.943.1466</p><br>
+            </div>
+            <div class="mx-auto pt-20 text-center">
+                <p class="font-semibold uppercase">Check the vendor dashboard to see all your quotes in one spot!</p>
+                <a href="https://unlimitedcharters.com/vendor"><button class="bg-LogoGold-500 border border-gray-600 mt-5 p-2 shadow-gray-600 shadow-md text-2xl text-gray-50" type="button">See All Quotes</button></a>
+            </div>             
+        </section>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </body>
+    <footer data-empty-placeholder></footer>     
+</html>

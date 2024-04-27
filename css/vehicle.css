@@ -1,0 +1,142 @@
+.addNewVehicle{
+    padding: 4rem!important;
+    margin: 28px 0px;
+    box-shadow: none;
+}
+.allVehicles{
+    padding:0px 6rem!important;
+    padding-top: 28px!important;
+}
+.ff{
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"!important;
+}
+.f16{
+    font-size: 16px!important;
+}
+.underLine{
+    text-decoration: underline!important;
+    font-size: 16px !important;
+    color: #000!important;
+}
+.f600{
+    font-weight: 600!important;
+}
+.vehicleTitle{
+    font-weight: 500!important;
+    color:#DFCA8B!important;
+
+    font-size: 40px!important;
+}
+.ipt-uif-custom-material-light-blue [type=checkbox]+label{
+    color: #000!important;
+    padding-left: 0px!important;
+}
+.ipt-uif-custom-material-light-blue [type=checkbox]+label::before{
+    left: -30px!important;
+    top: 5px;
+    border:var(--bs-border-width) solid var(--bs-border-color) ;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    display: none;
+}
+.ipt-uif-custom-material-light-blue [type=checkbox]+label::after{
+display: none;
+}
+.ipt-uif-custom-material-light-blue [type=checkbox]:checked, .ipt-uif-custom-material-light-blue [type=checkbox]:not(:checked){
+    position: relative;
+    left: 0px!important;
+    visibility: visible;
+    opacity: 1;
+
+}
+.ipt-uif-custom-material-light-blue [type=checkbox]:checked:focus, .ipt-uif-custom-material-light-blue [type=checkbox]:not(:checked):focus{
+    outline: none;
+}
+#smartwizard > div.btn-toolbar.sw-toolbar.sw-toolbar-top.justify-content-end{
+    display: none!important;
+}
+
+.xeno:active , .xeno:focus{
+    outline: none!important;
+    box-shadow: none!important;
+    border-color: transparent!important;;
+}
+.ipt-uif-custom-material-light-blue .ipt_uif_question .ipt_uif_label_column{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+}
+.ipt-uif-custom-material-light-blue [type=checkbox]:checked, .ipt-uif-custom-material-light-blue [type=checkbox]:not(:checked){
+    margin: 0!important;
+}
+.ipt-uif-custom-material-light-blue .ipt_uif_question label.ipt_uif_question_title .ipt_uif_question_required{
+    color:#e3b04b!important;
+}
+.ipt-uif-custom-material-light-blue .ipt_uif_divider .ipt_uif_divider_text .subtitle{
+    background: #e3b04b!important;
+}
+.ipt-uif-custom-material-light-blue .input-field .prefix{
+    color:#e3b04b!important;
+}
+#drop_zone > div.ipt_uif_uploader > div.ipt_fsqm_fileuploader_list_wrap > table > thead > tr > td > div > div > span{
+    position: relative!important;
+}
+#vehicle_images{
+    max-height: 200%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 9999;
+    opacity: 0;
+    cursor: pointer;
+}
+.vehicleAddBtn{
+    background: #e3b04b;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #fff;
+    width: 30%;
+    margin: auto!important;
+}
+#ipt_fsqm_form_52_freetype_15 > div > div.ipt_uif_container.ipt_uif_iconbox{
+    width: 100%;
+}
+.ipt-uif-custom-material-light-blue .ipt_uif_column .ipt_uif_column_inner.side_margin{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.ipt-uif-custom-material-light-blue td, .ipt-uif-custom-material-light-blue th{
+    text-align: center!important;
+    border: 1px solid lightgray;
+}
+.ipt-uif-custom-material-light-blue th{
+    font-weight: 600;
+}
+.xenoDd{
+    background: #e3b04b!important;
+    color: #fff;
+    border: none;
+    outline: none;
+        display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 60%;
+    margin: auto;
+}
+.xenoDd::after{
+    display: none;
+}
+.xenoDd:active, .xenoDd:focus{
+    outline: none!important;
+    border: none!important;
+    box-shadow: none!important;
+}
+.popup_bal > div > ul > li > p{
+    text-align: left!important;
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="title">Lorem</h1>
+    
+    <button id="btn">Click</button>
+    <script>
+        let title = document.getElementById("title");
+        let btn = document.getElementById("btn");
+
+        btn.addEventListener("click" , ()=>{
+            title.style.color = "red";
+            title.style.fontSize = "50px";
+            title.innerText = "Ahamd"
+        })
+    </script>
+</body>
+</html>
+
+
+
+<!-- title -->
+ <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="prequoted" role="tabpanel" aria-labelledby="prequoted-tab">
+                <div class="flex flex-no-wrap items-center max-w-screen-2xl mx-auto pb-4 pt-10">
+                    <div class="bg-gray-500 flex-grow h-px max-w-full"></div>
+                    <div class="px-10 w-auto">
+                        <h2 class="font-semibold text-2xl uppercase"><b class="text-4xl text-LogoGold-500 text-dfca8b-500">Pre-Quoted</b></h2>
+                    </div>
+                    <div class="bg-gray-500 flex-grow h-px max-w-full"></div>
+                </div>
+                <div class="container mt-10 mx-auto px-4 shadow-2xl">
+                    <div class="-mx-4 flex ">
+                        <div class="px-4 w-full md:w-1/2 mx-auto ">
+
+                            <img src="https://unlimitedcharters.com/vendor24/vehicles/<?php echo $vehicle['vehicle_images'][0]; ?>" class="h-auto mx-auto w-auto" style="max-height:320px;">
+                            <p class="mx-auto pt-10 w-80">Vehicle Type :&nbsp;&nbsp;<?php echo $vehicle['name']; ?></p>
+                            <p class="mx-auto pt-0 w-80">Vehicle Year :&nbsp; &nbsp;<?php echo $vehicle['vehicle_year']; ?></p>
+                            <p class="mx-auto pt-0 w-80">Vehicle Make :&nbsp;&nbsp;<?php echo $vehicle['vehicle_make']; ?></p>
+                            <p class="mx-auto w-80">Vehicle Model :&nbsp;&nbsp;<?php echo $vehicle['vehicle_model']; ?></p>
+                        </div>
+                        <div class="mx-auto shadow-2xl text-center px-4 w-full md:w-1/2">
+                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-900">Hourly Rate: @ $ <?php echo $vehicle['base_hourly_rate']; ?> Per Hour</h2>
+                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-900">Subtotal :&nbsp;$<?php echo $quoted_price; ?></h2>
+                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-400">+ Fuel : $<?php echo $trip_fuel; ?></h2>
+                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-400">+ Mileage : $<?php echo $mileage; ?></h2>
+                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-400">+ Gratuity : $<?php echo $trip_gratuity; ?></h2>
+                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-400">Price Per Person Breakdown: $<?php echo $costperperson; ?></h2>
+                            <h2 class="font-bold mx-auto pt-6 text-3xl text-LogoGold-500 text-dfca8b-500">DEPOSIT AMOUNT : 50%</h2>
+                            <h2 class="font-extrabold mx-auto pt-6 text-3xl text-65d5e2-500 text-LogoBlue-500">TOTAL TRIP COST : $<?php echo $toal_trip_cost; ?><br><br><br></h2>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="flex flex-no-wrap items-center max-w-screen-2xl mx-auto pb-4 pt-16">
+                    <div class="bg-gray-500 flex-grow h-px max-w-full"></div>
+                    <div class="px-10 w-auto">
+                        <h2 class="font-semibold mx-auto text-2xl uppercase"><b class="text-4xl text-LogoGold-500 text-center text-dfca8b-500">Book Your Vehicle(s)</b></h2>
+                    </div>
+                    <div class="bg-gray-500 flex-grow h-px max-w-full"></div>
+                </div>
+                <div class="mt-5 mx-auto text-center pt-5">
+                    <!-- <a href="https://unlimitedcharters.com/vendor/system/rental_agreement_sent_automatic.html"> -->
+                    <a href="./reserve.php?lead_id=<?php echo $lead_id; ?>&quote_id=<?php echo $quote_id; ?>&opertunity_id='<?php echo $lead[0]['opertunityid_c']; ?>&vendor_email='<?php echo $lead[0]['vendor_email_c']; ?>" class="inline-block animate-bounce bg-LogoGold-500 bg-dfca8b-400 border-2 border-dfca8b-500 border-gray-700 font-bold leading-normal  px-10 py-2 rounded-full shadow-gray-500 shadow-md text-3xl text-center text-gray-50 uppercase" id="reserve">Reserve Now</a>
+
+                    <button class="animate-bounce bg-red-500 bg-dfca8b-400 border-2 border-dfca8b-500 border-gray-700 font-bold leading-normal  px-10 py-2 rounded-full shadow-gray-500 shadow-md text-3xl text-center text-gray-50 uppercase" type="button" id="reject">Reject QUOTE</button>
+                    <!-- </a> -->
+                </div>
+                <div id="quote-form-div">
+                    <form class="reason-form mt-5" action="./reject.php" method="post">
+                        <!-- <textarea name="reason" id="reason" cols="30" rows="10" placeholder="Reason for Rejecting Quote" class="w-[80%] h-[150px]" required></textarea> -->
+                        <div class="formCard">
+                            <div class="cross" id="cross"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+
+                                    <path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z" />
+                                </svg></div>
+                            <h1 class="text-center text-3xl">Reason for Rejecting Quote</h1>
+                            <input type="hidden" name="lead_id" value="<?php echo $lead[0]['id']; ?>" />
+                            <input type="hidden" name="opertunity_id" value="<?php echo $lead[0]['opertunityid_c']; ?>" />
+                            <input type="hidden" name="lead_email" value="<?php echo $lead[0]['vendor_email_c']; ?>" />
+                            <select name="reason" id="reason">
+                                <option value="Already booked elsewhere">Already booked elsewhere</option>
+                                <option value="Not ready to book just yet">Not ready to book just yet</option>
+                                <option value="Too expensive / Out of our budget">Too expensive / Out of our budget</option>
+                                <option value="Got a lower quote">Got a lower quote</option>
+                            </select>
+                            <input type="hidden" name="quote_id" value="<?php if ($sent_lead_count == 0) {
+                                                                            echo $lead[0]['id'];
+                                                                        } else {
+                                                                            $quote_ids = explode(',', $lead[0]['sent_quote_id_c']);
+                                                                            // echo '<br/>';
+                                                                            // echo "2";
+                                                                            $quote_id = $quote_ids[$sent_lead_count - 1];
+                                                                            // echo $quote_id;
+
+                                                                            $quote_id = trim($quote_id);
+                                                                            echo $quote_id;
+                                                                        } ?>"">
+                                                        </div>
+            <button type=" submit" name="submit" id="submit" class="animate-bounce bg-red-500 bg-dfca8b-400 border-2 border-dfca8b-500 border-gray-700 font-bold leading-normal  px-10 py-2 rounded-full shadow-gray-500 shadow-md text-3xl text-center text-gray-50 uppercase cursor-pointer" value="Submit">Submit</button>
+                    </form>
+                </div>
+
+            </div>
