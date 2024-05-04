@@ -502,6 +502,7 @@ $leadCharges = json_decode($response, true);
 
             <!-- <p class="font-extrabold leading-loose mt-14 text-2xl text-center f24">or</p> -->
             <p class="font-extrabold leading-loose text-4xl text-center uppercase f36">Click "Not Available"</p>
+            <p class="font-normal italic leading-loose text-4xl text-center f24 f400" style="color:red;">&nbsp;If no vehicles are available that fit this / these trip date(s)</p>
             <div class="text-4xl">
                 <a href="<?php echo "./leadStatus.php?opertunity_id=" . $opertunityid_c . "&lead_id=" . $opportunities[0]['id_c'] . ""; ?>"><button class="bg-red-600 border-2 border-gray-900 font-extrabold leading-normal mt-5 mx-auto px-10 rounded-full shadow-gray-600 shadow-lg text-3xl text-center text-gray-50 uppercase f36 bd-2" name="No Availability">Not Available</button></a>
             </div>
