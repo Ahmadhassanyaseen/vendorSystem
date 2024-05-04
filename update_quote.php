@@ -220,26 +220,57 @@ $costperperson_quoted = $total_trip_cost_quoted / $lead[0]['numberofpassengers_c
         height: 80px !important;
     }
 </style>
-<div class="container h-auto mt-8 mx-auto pt-8 px-4 shadow-2xl">
+<div class="container h-auto mt-8 mx-auto pt-8  px-4 shadow-2xl" style="padding-bottom:2rem;">
     <div class="-mx-4 flex flex-wrap">
         <h1 class="fw-bolder me-auto ms-auto mb-5 text-primary text-center text-center text-uppercase  f36">QUOTE DETAILS</h1>
         <div class="pl-0 text-center w-full flex row ">
-            <div class=" col-md-6">
-                <h2 class="font-bold ml-24 pt-6 text-gray-400 mt-0">Name :&nbsp;<?php echo $singleLeadQuoteDetails['data2']['name'] ?></h2>
-                <h2 class="font-bold ml-24 pt-6 text-gray-400 mt-0">Quote Price : $<?php echo $singleLeadQuoteDetails['data']['quoted_price_c'] ?> </h2>
-                <h2 class="font-bold ml-24 pt-6 text-gray-400 mt-0">Rejection Reason :&nbsp;<?php echo $singleLeadQuoteDetails['data']['rejection_reason_c'] ?></h2>
-                <h2 class="font-bold ml-24 pt-6 text-gray-400 mt-0">Quote Number : <?php echo $singleLeadQuoteDetails['data']['quote_number_c'] ?></h2>
+            <div class=" col-md-4">
+                <h2 class="font-bold ml-24 pt-6 text-gray-400 mt-0">Name :&nbsp;<span style="font-weight: 600;"><?php echo $singleLeadQuoteDetails['data2']['name'] ?></h2>
+                <h2 class="font-bold ml-24 pt-6 text-gray-400 mt-0">Quote Price : <span style="font-weight: 600;">$<?php echo $singleLeadQuoteDetails['data']['quoted_price_c'] ?> </h2>
+                <h2 class="font-bold ml-24 pt-6 text-gray-400 mt-0">Rejection Reason :&nbsp;<span style="font-weight: 600;"><?php echo $singleLeadQuoteDetails['data']['rejection_reason_c'] ?></h2>
+                <h2 class="font-bold ml-24 pt-6 text-gray-400 mt-0">Quote Number : <span style="font-weight: 600;"><?php echo $singleLeadQuoteDetails['data']['quote_number_c'] ?></h2>
             </div>
-            <div class="  col-md-6">
+            <div class="  col-md-4">
                 <div class=" mx-auto w-10/12">
-                    <h2 class="font-bold wsnw pt-6 text-gray-400 mt-0">Pickup :&nbsp;<?php echo $lead[0]['pickuplocation_c'] ?></h2>
-                    <h2 class="font-bold wsnw pt-6 text-gray-400 mt-0">Destination :&nbsp;<?php echo $lead[0]['location_c'] ?></h2>
-                    <h2 class="font-bold  pt-6 text-gray-400 mt-0">Vehicle : <?php echo $vehicle['name'] ?></h2>
-                    <h2 class="font-bold  pt-6 text-gray-400 mt-0">Event Date : <?php echo $lead['0']['eventdate_c'] ?><br><br><br></h2>
+                    <h2 class="font-bold wsnw pt-6 text-gray-400 mt-0">Pickup :&nbsp;<span style="font-weight: 600;"><?php echo $lead[0]['pickuplocation_c'] ?></h2>
+                    <h2 class="font-bold wsnw pt-6 text-gray-400 mt-0">Destination :&nbsp;<span style="font-weight: 600;"><?php echo $lead[0]['location_c'] ?></h2>
+                    <h2 class="font-bold  pt-6 text-gray-400 mt-0">Vehicle : <span style="font-weight: 600;"><?php echo $vehicle['name'] ?></h2>
+                    <h2 class="font-bold  pt-6 text-gray-400 mt-0">Event Date : <span style="font-weight: 600;"><?php echo $lead['0']['eventdate_c'] ?><br><br><br></h2>
 
 
                 </div>
 
+            </div>
+            <div class="col-md-4">
+                <div class="imgDivMain w-50">
+                    <?php
+
+                    $images = explode(',', $vehicle['images']);
+                    // print_r($images);
+                    $i = 1;
+
+                    while ($i <= 2) {
+                        // Assuming $firstImage contains the image filename
+                        if ($images[$i])
+                            echo '<img src="./vehicles/' . $images[$i] . '" class="h-auto mx-auto w-auto">';
+                        // Exit the loop after displaying the image
+                        $i++;
+                    }
+
+                    // foreach ($vehicleData as $key => $value) {
+                    //     $vehicle[$key] = $value['name'];
+                    //     if (isset($opportunities[0]['vechiles_name_c']) && isset($vehicle[$key]) && $opportunities[0]['vechiles_name_c'] == $vehicle[$key]) {
+                    //         // Split images by comma and select the first image
+
+
+                    //         break;
+                    //     } else {
+                    //         // break;
+                    //     }
+                    // }
+
+                    ?>
+                </div>
             </div>
 
         </div>
@@ -282,24 +313,24 @@ $costperperson_quoted = $total_trip_cost_quoted / $lead[0]['numberofpassengers_c
     </div>
     <div class="row col-md-8">
         <div class="col-md-6">
-            <h2 class="font-bold xen-8 pt-6 text-2xl text-LogoBlue-500 text-center uppercase f30">Quoted Price</h2>
+            <h2 class="font-bold xen-8 pt-6 text-2xl text-LogoBlue-500 text-center uppercase f30">Original Price</h2>
             <!-- <h2 class="font-bold mx-auto pt-0 text-2xl text-center text-yellow-500 uppercase"><a href="https://unlimitedcharters.com/vendor" target="_blank" class="text-base text-yellow-500 f18">(update / Change your Future Rates - Click Here)</a></h2> -->
             <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">Hourly Rate @ $<?php echo number_format($vehicle['base_hourly_rate'], 2) ?> Per Hour</h2>
-            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">+ Fuel : $<?php echo number_format($quotedFuel, 2) ?></h2>
-            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">+ Mileage : $<?php echo number_format($quotedMileage, 2) ?></h2>
-            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">+ Gratuity : $<?php echo number_format($quotedGratuity, 2) ?></h2>
-            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-900 f24">Quoted Price :&nbsp;$<?php echo number_format($quoted_price, 2) ?></h2>
-            <h2 class="font-extrabold xen-8 pt-6 text-3xl text-65d5e2-500 text-LogoBlue-500 text-center f24 xen-h-80">TOTAL TRIP COST <br> $<?php echo number_format($total_trip_cost_quoted, 2); ?><br><br><br></h2>
+            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-900 f24">Quoted Price :&nbsp;<span style="font-weight: 600;">$<?php echo number_format($quoted_price, 2) ?></span></h2>
+            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">+ Fuel : <span style="font-weight: 600;">$<?php echo number_format($quotedFuel, 2) ?></span></h2>
+            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">+ Mileage : <span style="font-weight: 600;">$<?php echo number_format($quotedMileage, 2) ?></span></h2>
+            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">+ Gratuity : <span style="font-weight: 600;">$<?php echo number_format($quotedGratuity, 2) ?></span></h2>
+            <h2 class="font-extrabold xen-8 pt-6 text-3xl text-65d5e2-500 text-LogoBlue-500 text-center f24 xen-h-80">TOTAL TRIP COST <br> <span style="font-weight: 600;">$<?php echo number_format($total_trip_cost_quoted, 2); ?></span><br><br><br></h2>
         </div>
         <div class="col-md-6">
             <h2 class="font-bold xen-8 pt-6 text-2xl text-LogoBlue-500 text-center uppercase f30">Updated Price</h2>
             <!-- <h2 class="font-bold mx-auto pt-0 text-2xl text-center text-yellow-500 uppercase"><a href="https://unlimitedcharters.com/vendor" target="_blank" class="text-base text-yellow-500 f18">(update / Change your Future Rates - Click Here)</a></h2> -->
             <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">Hourly Rate @ $<span class="font-bold" id="newHourlyRate">0.00</span> Per Hour</h2>
-            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">+ Fuel : $<span class="font-bold" id="newFuelRate">0.00</span></h2>
-            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">+ Mileage : $<span class="font-bold" id="newMileageRate">0.00</span></h2>
-            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">+ Gratuity : $<span class="font-bold" id="newGratuityRate">0.00</span></h2>
-            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-900 f24">Quoted Price :&nbsp;$<span class="font-bold" id="newSubtotalRate">0.00</span></h2>
-            <h2 class="font-extrabold xen-8 pt-6 text-3xl text-65d5e2-500 text-LogoBlue-500 text-center f24 xen-h-80">TOTAL TRIP COST <br> $<span class="font-bold" id="newTotalPrice">0.00</span><br><br><br></h2>
+            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-900 f24">Quoted Price :&nbsp;$<span style="font-weight: 600;" id="newSubtotalRate">0.00</span></h2>
+            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">+ Fuel : $<span style="font-weight: 600;" id="newFuelRate">0.00</span></h2>
+            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">+ Mileage : $<span style="font-weight: 600;" id="newMileageRate">0.00</span></h2>
+            <h2 class="font-bold xen-8 pt-6 text-2xl text-center text-gray-400 f24">+ Gratuity : $<span style="font-weight: 600;" id="newGratuityRate">0.00</span></h2>
+            <h2 class="font-extrabold xen-8 pt-6 text-3xl text-65d5e2-500 text-LogoBlue-500 text-center f24 xen-h-80">TOTAL TRIP COST <br> $<span style="font-weight: 600;" id="newTotalPrice">0.00</span><br><br><br></h2>
         </div>
     </div>
 </div>
@@ -376,9 +407,9 @@ $costperperson_quoted = $total_trip_cost_quoted / $lead[0]['numberofpassengers_c
     let updatePriceBTN = document.getElementById('updatePriceBTN');
     let quotedForm = document.getElementById('quotedForm');
     updatePriceBTN.addEventListener('click', function() {
-        if(!formSubmitCheck){
+        if (!formSubmitCheck) {
             alert('Please enter valid price');
-        }else if (updatedPrice.value == '') {
+        } else if (updatedPrice.value == '') {
             alert('Please enter price');
         } else {
             let check = confirm("Do you want to change the price?");
