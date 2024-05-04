@@ -407,7 +407,7 @@ $costperperson = $toal_trip_cost / $lead[0]['numberofpassengers_c'];
                     ?>
 
 
-                    <div class="gmap_canvas"><iframe width="100%" height="100%" id="gmap_canvas" src="<?php echo 'https://maps.google.com/maps?q=' . $first_word . 'to=' . $second_word . '&t=&z=9&ie=UTF8&iwloc=&output=embed'; ?>" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.analarmclock.com/"></a><br><a href="https://www.onclock.net/"></a><br>
+                    <div class="gmap_canvas"><iframe width="100%" height="100%" id="gmap_canvas" src="<?php echo 'https://maps.google.com/maps?q=' . $first_word . 'to=' . $second_word . '&t=&z=10&ie=UTF8&iwloc=&output=embed'; ?>" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.analarmclock.com/"></a><br><a href="https://www.onclock.net/"></a><br>
                         <style>
                             .mapouter {
                                 position: relative;
