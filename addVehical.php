@@ -5,6 +5,58 @@ require_once './config.php';
 require_once './session.php';
 require_once './vehicle_options.php';
 $vehicle_object = array();
+$vehicle_special = array();
+
+if(isset($_GET) && $_GET['vehicle'] != null) {
+
+// print_r($_SESSION['VNDR']['id']);
+
+
+    $data['vndid'] = $_SESSION['VNDR']['id'];
+    $data["method"] = "fetchVndVehiclesIdsNew";
+    $curl = curl_init($crm_url);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_HEADER, false);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    $response = curl_exec($curl);
+    $vndVehicles = json_decode($response, true);
+    // print_r($vndVehicles);
+    $check = false;
+    foreach ($vndVehicles['data'] as $ids) {
+    //    print_r($ids);
+    //    echo '<br>';
+    //    echo '<br>';
+       if($ids['vnd_vechiles_vnd_vendorsvnd_vechiles_idb'] == $_GET['vehicle']){
+        $check =true;
+        break;
+       }
+    }
+    // echo $check;
+    if(!$check){
+        echo '<script>
+    alert("This is not a registered Vehicle");
+    window.location.href = "dashboard.php";
+</script>';
+        // header("Location: dashboard.php");
+    }
+
+// print_r($_GET);
+    $data['id'] = $_GET['vehicle'];
+        $data["method"] = "fetchSpecialRatesNew";
+        $curl = curl_init($crm_url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        $response = curl_exec($curl);
+        $specialRates = json_decode($response, true);
+    // print_r($specialRates);
+    $vehicle_special = $specialRates['data'];
+
+        // $vehicle_object['xeno'] = "ahmad";
+}
+// print_r($vehicle_object);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once './functions.php';
     //'luggage_limit',
@@ -17,6 +69,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $data = array();
         $data = $_POST;
+
+
+
+
+
+
         if (isset($_REQUEST['vehicle']) && !empty($_REQUEST['vehicle']))
             $data["id"] = trim($_REQUEST['vehicle']);
         if (isset($_SESSION['VNDR']['id']) && !empty($_SESSION['VNDR']['id']))
@@ -107,6 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         $response = curl_exec($curl);
         $result_data = json_decode($response, true);
+        // print_r($result_data);
         if (isset($result_data['CURL_RESULT']) && $result_data['CURL_RESULT'] == "success") {
             $_SESSION['VNDR']['VEHICLES'][$result_data['id']]['vehicle'] = $result_data['id'];
             $multiselect_options = array('interior_style', 'onboard_luxury', 'media_capability', 'complimentary');
@@ -324,9 +383,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 curl_setopt($curl2, CURLOPT_POSTFIELDS, $rate_data);
                 $response = curl_exec($curl2);
                 // print_r($rate_data);
+                // echo '<br>';
+                // echo '<br>';
                 // print_r($response);
-                // echo '<br>';
-                // echo '<br>';
                 if ($response == 'error') {
                     $errors[] = 'Error occurred while adding special rate';
                 } else if ($response == 'skip') {
@@ -338,7 +397,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             }
             // $_SESSION['VNDR']['VEHICLES'][$result_data['id']]['VEHICLESRATES'] = $rates_object;
-            header("Location: http://localhost/vendor/vehicle.php" );
+            header("Location: ./vehicle.php" );
         } else {
             $errors[] = $response;
         }
@@ -349,19 +408,19 @@ if (isset($_REQUEST['vehicle']) && !empty($_REQUEST['vehicle'])) {
         $vehicle_object = $_SESSION['VNDR']['VEHICLES'][$_REQUEST['vehicle']];
         // $vehicle_object['SpeicalRates'] = $_SESSION['VNDR']['VEHICLES'][$_REQUEST['vehicle']]['VEHICLESRATES'];
 
+        // $data['id'] = $vehicle_object['vehicle'];
+        // $data["method"] = "fetchSpecialRatesNew";
+        // $curl = curl_init($crm_url);
+        // curl_setopt($curl, CURLOPT_POST, true);
+        // curl_setopt($curl, CURLOPT_HEADER, false);
+        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        // $response = curl_exec($curl);
+        // // print_r($response);
+        // $specialRates = json_decode($response, true);
+        // $vehicle_object['SpeicalRates'] = $specialRates['data'];
+        // $vehicle_object['xeno'] = "ahmad";
 
-        $data['id'] = $vehicle_object['vehicle'];
-        $data["method"] = "fetchSpecialRatesNew";
-        $curl = curl_init($crm_url);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        $response = curl_exec($curl);
-        // print_r($response);
-        $specialRates = json_decode($response, true);
-        $vehicle_object['SpeicalRates'] = $specialRates['data'];
-        $vehicle_object['xeno'] = "ahmad";
     } else {
         $data = array();
         $data = $_POST;

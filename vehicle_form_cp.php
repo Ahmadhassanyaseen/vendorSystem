@@ -47,6 +47,26 @@ require_once './vehicle_options.php';
     #vehicle_color {
         min-width: 45% !important;
     } */
+    .image-container img {
+        height: auto;
+    }
+
+    .image-container .image-remove {
+        bottom: auto;
+        right: 0;
+    }
+
+    .sw-theme-default .sw-container {
+        min-height: auto !important;
+    }
+
+    input[type="number"] {
+        text-align: right;
+    }
+
+    .ipt-uif-custom-material-light-blue input[type="number"] {
+        text-align: left !important;
+    }
 </style>
 <div class="mt-5 container" style="padding:0px 4rem;">
     <form class="w-100" method="post" action="#" id="registration_form" onsubmit="return validate_vehicle(event, 'all');" enctype="multipart/form-data">
@@ -109,6 +129,7 @@ require_once './vehicle_options.php';
             //         $io++;
             //     }
             // }
+            // print_r($vehicle_object);
             function removeCarat(&$array)
             {
                 if (!empty($array) && is_array($array)) {
@@ -195,7 +216,7 @@ require_once './vehicle_options.php';
                                             <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
                                                 <div class="ipt_uif_question_content">
                                                     <div class="input-field has-icon">
-                                                        <input class="ipt_uif_text" name="vehicle_make" id="vehicle_make" type="text" placeholder="Vehicle Make (optional)" title="Vehicle Make (Optional)" value="<?php echo $vehicle_object['vehicle_make']; ?>">
+                                                        <input class="ipt_uif_text" name="vehicle_make" id="vehicle_make" type="text" placeholder="Vehicle Make" title="Vehicle Make" value="<?php echo $vehicle_object['vehicle_make']; ?>" required='true'>
                                                         <i title="" class="ipticm prefix" data-ipt-icomoon="&#xe559;"></i>
                                                     </div>
                                                     <div class="clear-both"></div>
@@ -209,7 +230,7 @@ require_once './vehicle_options.php';
                                             <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
                                                 <div class="ipt_uif_question_content">
                                                     <div class="input-field has-icon">
-                                                        <input class="ipt_uif_text" name="vehicle_model" id="vehicle_model" maxlength="" type="text" placeholder="Vehicle Model (Optional)" title="Vehicle Model (Optional)" value="<?php echo $vehicle_object['vehicle_model']; ?>">
+                                                        <input class="ipt_uif_text" name="vehicle_model" id="vehicle_model" maxlength="" type="text" placeholder="Vehicle Model" title="Vehicle Model" value="<?php echo $vehicle_object['vehicle_model']; ?>" required>
                                                         <i title="" class="ipticm prefix" data-ipt-icomoon="&#xe559;"></i>
                                                     </div>
                                                     <div class="clear-both"></div>
@@ -229,7 +250,7 @@ require_once './vehicle_options.php';
                                                     // print_r($vehicle_object);
 
                                                     ?>
-                                                    <select class="ipt_uif_select select2-hidden-accessible" name="vehicle_type" id="vehicle_type" data-placeholder="Select Vehicle Type" placeholder="Select Vehicle Type" title="Select Vehicle Type" data-allow-clear="true" data-theme="eform-material eform-select2-boxy" tabindex="-1" aria-hidden="true">
+                                                    <select class="ipt_uif_select select2-hidden-accessible" name="vehicle_type" id="vehicle_type" data-placeholder="Select Vehicle Type" placeholder="Select Vehicle Type" title="Select Vehicle Type" data-allow-clear="true" data-theme="eform-material eform-select2-boxy" tabindex="-1" aria-hidden="true" required>
 
                                                         <?php
 
@@ -334,7 +355,11 @@ require_once './vehicle_options.php';
                                             <div class="ipt_uif_question ipt_uif_question_vertical">
                                                 <div class="ipt_uif_question_content">
                                                     <div class="input-field has-icon">
-                                                        <input class="ipt_uif_text" name="vehicle_capacity" id="vehicle_capacity" type="text" placeholder="Passenger Limit (Ex: 20)" title="Passenger Limit (Ex: 20)" value="<?php echo $vehicle_object['vehicle_capacity']; ?>">
+                                                        <input class="ipt_uif_text" name="vehicle_capacity" id="vehicle_capacity" type="number" placeholder="Passenger Limit (Ex: 20)" title="Passenger Limit (Ex: 20)" value="<?php if (!empty($vehicle_object['vehicle_capacity'])) {
+                                                                                                                                                                                                                                    echo $vehicle_object['vehicle_capacity'];
+                                                                                                                                                                                                                                } else {
+                                                                                                                                                                                                                                    echo "0";
+                                                                                                                                                                                                                                }  ?>">
                                                         <i title="" class="ipticm prefix" data-ipt-icomoon="&#xe7fd;"></i>
                                                     </div>
                                                     <div class="clear-both"></div>
@@ -349,11 +374,11 @@ require_once './vehicle_options.php';
                                             <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
                                                 <div class="ipt_uif_question_content">
                                                     <div class="input-field has-icon">
-                                                        <input class="ipt_uif_text" name="luggage_limit" id="luggage_limit" type="text" placeholder="Luggage Limit (Ex: 20)" title="Luggage Limit (Ex: 20)" value="<?php if (!empty($vehicle_object['luggage_limit'])) {
-                                                                                                                                                                                                                        echo $vehicle_object['luggage_limit'];
-                                                                                                                                                                                                                    } else {
-                                                                                                                                                                                                                        echo "0";
-                                                                                                                                                                                                                    }  ?>">
+                                                        <input class="ipt_uif_text" name="luggage_limit" id="luggage_limit" type="number" placeholder="Luggage Limit (Ex: 20)" title="Luggage Limit (Ex: 20)" value="<?php if (!empty($vehicle_object['luggage_limit'])) {
+                                                                                                                                                                                                                            echo $vehicle_object['luggage_limit'];
+                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                            echo "0";
+                                                                                                                                                                                                                        }  ?>">
                                                         <i title="" class="ipticm prefix" data-ipt-icomoon="&#xf290;"></i>
                                                     </div>
                                                     <div class="clear-both"></div>
@@ -590,15 +615,16 @@ require_once './vehicle_options.php';
                                         </div>
                                         <div class="ipt_uif_question_content">
                                             <div class="input-field has-icon">
-                                                <input class="ipt_uif_text vndr_currency" name="base_hourly_rate" id="base_hourly_rate" type="text" placeholder="Enter Base Hourly Rate" title="Enter Base Hourly Rate" value="<?php 
-                                                if (is_array($vehicle_object['base_hourly_rate'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['base_hourly_rate']), 2);
-}
-                                                
-                                                
-                                                 ?>" required>
+                                                <input class="ipt_uif_text vndr_currency" name="base_hourly_rate" id="base_hourly_rate" type="number" placeholder="Enter Base Hourly Rate" title="Enter Base Hourly Rate" value="<?php
+                                                                                                                                                                                                                                    if (!$vehicle_object['base_hourly_rate']) {
+                                                                                                                                                                                                                                        echo "0.00";
+                                                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                                                        $vehicle_object['base_hourly_rate'] =  str_replace(",", "", $vehicle_object['base_hourly_rate']);
+                                                                                                                                                                                                                                        echo $vehicle_object['base_hourly_rate'];
+                                                                                                                                                                                                                                    }
+
+
+                                                                                                                                                                                                                                    ?>" required>
                                                 <i title="" class="ipticm prefix" data-ipt-icomoon="&#xf155;"></i>
                                             </div>
                                             <div class="clear-both"></div>
@@ -617,15 +643,15 @@ require_once './vehicle_options.php';
                                             <div class="clear-both"></div>
                                         </div>
                                         <div class="ipt_uif_question_content">
-                                            <div class="input-field has-icon"> <input class="ipt_uif_text" name="base_min_hours" id="base_min_hours" type="text" placeholder="Enter Minimum Hours" title="Enter Minimum Hours" value="<?php  
-                                            if (is_array($vehicle_object['base_min_hours'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['base_min_hours']), 2);
-}
-                                            
-                                            
-                                            // echo number_format($vehicle_object['base_min_hours'], 2); 
+                                            <div class="input-field has-icon"> <input class="ipt_uif_text" name="base_min_hours" id="base_min_hours" type="number" placeholder="Enter Minimum Hours" title="Enter Minimum Hours" value="<?php
+                                                                                                                                                                                                                                        if (!$vehicle_object['base_min_hours']) {
+                                                                                                                                                                                                                                            echo "0.00";
+                                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                                            echo number_format(floatval($vehicle_object['base_min_hours']), 2);
+                                                                                                                                                                                                                                        }
+
+
+                                                                                                                                                                                                                                        // echo number_format($vehicle_object['base_min_hours'], 2); 
                                                                                                                                                                                                                                         ?>" required>
                                                 <i title="" class="ipticm prefix" data-ipt-icomoon="&#xe082;"></i>
                                             </div>
@@ -644,15 +670,17 @@ require_once './vehicle_options.php';
                                         </div>
                                         <div class="ipt_uif_question_content">
                                             <div class="input-field has-icon">
-                                                <input class="ipt_uif_text vndr_currency" name="base_additional_hourly" id="base_additional_hourly" type="text" placeholder="Enter Rate (Optional)" title="Enter Hourly Rate For Additional Hours (Optional)" value="<?php
-                                                if (is_array($vehicle_object['base_additional_hourly'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['base_additional_hourly']), 2);
-}
-                                                
-                                                
-                                                // echo number_format($vehicle_object['base_additional_hourly'] , 2); ?>">
+                                                <input class="ipt_uif_text vndr_currency" name="base_additional_hourly" id="base_additional_hourly" type="number" placeholder="Enter Rate (Optional)" title="Enter Hourly Rate For Additional Hours (Optional)" value="<?php
+                                                                                                                                                                                                                                                                        if (!$vehicle_object['base_additional_hourly']) {
+                                                                                                                                                                                                                                                                            echo "0.00";
+                                                                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                                                                            $vehicle_object['base_additional_hourly'] =  str_replace(",", "", $vehicle_object['base_additional_hourly']);
+                                                                                                                                                                                                                                                                            echo $vehicle_object['base_additional_hourly'];
+                                                                                                                                                                                                                                                                        }
+
+
+                                                                                                                                                                                                                                                                        // echo number_format($vehicle_object['base_additional_hourly'] , 2); 
+                                                                                                                                                                                                                                                                        ?>">
                                                 <i title="" class="ipticm prefix" data-ipt-icomoon="&#xf155;"></i>
                                             </div>
                                             <div class="clear-both"></div>
@@ -734,101 +762,111 @@ require_once './vehicle_options.php';
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_monday" id="hourly_rate_monday" type="text" value="<?php
-                                                                        if (is_array($vehicle_object['hourly_rate_monday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['hourly_rate_monday']), 2);
-}
-                                                                        
-                                                                        
-                                                                        
-                                                                        // echo number_format($vehicle_object['hourly_rate_monday'] , 2); ?>" placeholder="$$" title="Hourly Rate for Monday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_monday" id="hourly_rate_monday" type="number" value="<?php
+                                                                                                                                                                                                                        if (!$vehicle_object['hourly_rate_monday']) {
+                                                                                                                                                                                                                            echo "0.00";
+                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                            $vehicle_object['hourly_rate_monday'] =  str_replace(",", "", $vehicle_object['hourly_rate_monday']);
+                                                                                                                                                                                                                            echo $vehicle_object['hourly_rate_monday'];
+                                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                                        // echo number_format($vehicle_object['hourly_rate_monday'] , 2); 
+                                                                                                                                                                                                                        ?>" placeholder="$$" title="Hourly Rate for Monday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_tuesday" id="hourly_rate_tuesday" type="text" value="<?php
-                                                                        
-                                                                        if (is_array($vehicle_object['hourly_rate_tuesday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['hourly_rate_tuesday']), 2);
-}
-                                                                        // echo number_format($vehicle_object['hourly_rate_tuesday'] , 2); ?>" placeholder="$$" title="Hourly Rate for Tuesday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_tuesday" id="hourly_rate_tuesday" type="number" value="<?php
+
+                                                                                                                                                                                                                        if (!$vehicle_object['hourly_rate_tuesday']) {
+                                                                                                                                                                                                                            echo "0.00";
+                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                            $vehicle_object['hourly_rate_tuesday'] =  str_replace(",", "", $vehicle_object['hourly_rate_tuesday']);
+                                                                                                                                                                                                                            echo $vehicle_object['hourly_rate_tuesday'];
+                                                                                                                                                                                                                        }                                                                                                                                                                     // echo number_format($vehicle_object['hourly_rate_tuesday'] , 2); 
+                                                                                                                                                                                                                        ?>" placeholder="$$" title="Hourly Rate for Tuesday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_wednesday" id="hourly_rate_wednesday" type="text" value="<?php 
-                                                                        if (is_array($vehicle_object['hourly_rate_wednesday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['hourly_rate_wednesday']), 2);
-}
-                                                                        
-                                                                        
-                                                                        // echo number_format($vehicle_object['hourly_rate_wednesday'] , 2); ?>" placeholder="$$" title="Hourly Rate for Wednesday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_wednesday" id="hourly_rate_wednesday" type="number" value="<?php
+                                                                                                                                                                                                                            if (!$vehicle_object['hourly_rate_wednesday']) {
+                                                                                                                                                                                                                                echo "0.00";
+                                                                                                                                                                                                                            } else {
+                                                                                                                                                                                                                                $vehicle_object['hourly_rate_wednesday'] =  str_replace(",", "", $vehicle_object['hourly_rate_wednesday']);
+                                                                                                                                                                                                                                echo $vehicle_object['hourly_rate_wednesday'];
+                                                                                                                                                                                                                            }
+
+                                                                                                                                                                                                                            // echo number_format($vehicle_object['hourly_rate_wednesday'] , 2); 
+                                                                                                                                                                                                                            ?>" placeholder="$$" title="Hourly Rate for Wednesday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_thursday" id="hourly_rate_thursday" type="text" value="<?php 
-                                                                        if (is_array($vehicle_object['hourly_rate_thursday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['hourly_rate_thursday']), 2);
-}
-                                                                        
-                                                                        // echo number_format($vehicle_object['hourly_rate_thursday'] , 2); ?>" placeholder="$$" title="Hourly Rate for Thursday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_thursday" id="hourly_rate_thursday" type="number" value="<?php
+                                                                                                                                                                                                                            if (!$vehicle_object['hourly_rate_thursday']) {
+                                                                                                                                                                                                                                echo "0.00";
+                                                                                                                                                                                                                            } else {
+                                                                                                                                                                                                                                $vehicle_object['hourly_rate_thursday'] =  str_replace(",", "", $vehicle_object['hourly_rate_thursday']);
+                                                                                                                                                                                                                                echo $vehicle_object['hourly_rate_thursday'];
+                                                                                                                                                                                                                            }
+
+                                                                                                                                                                                                                            // echo number_format($vehicle_object['hourly_rate_thursday'] , 2); 
+                                                                                                                                                                                                                            ?>" placeholder="$$" title="Hourly Rate for Thursday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_friday" id="hourly_rate_friday" type="text" value="<?php 
-                                                                        if (is_array($vehicle_object['hourly_rate_friday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['hourly_rate_friday']), 2);
-}
-                                                                        
-                                                                        // echo number_format($vehicle_object['hourly_rate_friday'] , 2); ?>" placeholder="$$" title="Hourly Rate for Friday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_friday" id="hourly_rate_friday" type="number" value="<?php
+                                                                                                                                                                                                                        if (!$vehicle_object['hourly_rate_friday']) {
+                                                                                                                                                                                                                            echo "0.00";
+                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                            $vehicle_object['hourly_rate_friday'] =  str_replace(",", "", $vehicle_object['hourly_rate_friday']);
+                                                                                                                                                                                                                            echo $vehicle_object['hourly_rate_friday'];
+                                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                                        // echo number_format($vehicle_object['hourly_rate_friday'] , 2); 
+                                                                                                                                                                                                                        ?>" placeholder="$$" title="Hourly Rate for Friday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_saturday" id="hourly_rate_saturday" type="text" value="<?php 
-                                                                        
-                                                                        if (is_array($vehicle_object['hourly_rate_saturday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['hourly_rate_saturday']), 2);
-}
-                                                                        
-                                                                        // echo number_format($vehicle_object['hourly_rate_saturday'] , 2); ?>" placeholder="$$" title="Hourly Rate for Saturday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_saturday" id="hourly_rate_saturday" type="number" value="<?php
+
+                                                                                                                                                                                                                            if (!$vehicle_object['hourly_rate_saturday']) {
+                                                                                                                                                                                                                                echo "0.00";
+                                                                                                                                                                                                                            } else {
+                                                                                                                                                                                                                                $vehicle_object['hourly_rate_saturday'] =  str_replace(",", "", $vehicle_object['hourly_rate_saturday']);
+                                                                                                                                                                                                                                echo $vehicle_object['hourly_rate_saturday'];
+                                                                                                                                                                                                                            }
+
+                                                                                                                                                                                                                            // echo number_format($vehicle_object['hourly_rate_saturday'] , 2); 
+                                                                                                                                                                                                                            ?>" placeholder="$$" title="Hourly Rate for Saturday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_sunday" id="hourly_rate_sunday" type="text" value="<?php
-                                                                         if (is_array($vehicle_object['hourly_rate_sunday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['hourly_rate_sunday']), 2);
-}
-                                                                        // echo number_format($vehicle_object['hourly_rate_sunday'] , 2); ?>" placeholder="$$" title="Hourly Rate for Sunday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="hourly_rate_sunday" id="hourly_rate_sunday" type="number" value="<?php
+                                                                                                                                                                                                                        if (!$vehicle_object['hourly_rate_sunday']) {
+                                                                                                                                                                                                                            echo "0.00";
+                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                            $vehicle_object['hourly_rate_sunday'] =  str_replace(",", "", $vehicle_object['hourly_rate_sunday']);
+                                                                                                                                                                                                                            echo $vehicle_object['hourly_rate_sunday'];
+                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                        // echo number_format($vehicle_object['hourly_rate_sunday'] , 2); 
+                                                                                                                                                                                                                        ?>" placeholder="$$" title="Hourly Rate for Sunday">
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -840,16 +878,17 @@ require_once './vehicle_options.php';
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_monday" id="min_hours_monday" type="text" value="<?php 
-                                                                        if (is_array($vehicle_object['min_hours_monday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['min_hours_monday']), 2);
-}
-                                                                        
-                                                                        
-                                                                        
-                                                                        // echo number_format($vehicle_object['min_hours_monday'], 2); 
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_monday" id="min_hours_monday" type="number" value="<?php
+                                                                                                                                                                                                    if (!$vehicle_object['min_hours_monday']) {
+                                                                                                                                                                                                        echo "0.00";
+                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                        $vehicle_object['min_hours_monday'] =  str_replace(",", "", $vehicle_object['min_hours_monday']);
+                                                                                                                                                                                                        echo $vehicle_object['min_hours_monday'];
+                                                                                                                                                                                                    }
+
+
+
+                                                                                                                                                                                                    // echo number_format($vehicle_object['min_hours_monday'], 2); 
                                                                                                                                                                                                     ?>" placeholder="Hours" title="Minimum number of hours for Monday">
                                                                     </div>
                                                                 </div>
@@ -857,46 +896,46 @@ require_once './vehicle_options.php';
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_tuesday" id="min_hours_tuesday" type="text" value="<?php 
-                                                                        if (is_array($vehicle_object['min_hours_tuesday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['min_hours_tuesday']), 2);
-}
-                                                                        
-                                                                        
-                                                                        // echo number_format($vehicle_object['min_hours_tuesday'], 2); 
-                                                                                                                                                                                                    ?>" placeholder="Hours" title="Minimum number of hours for Tuesday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_tuesday" id="min_hours_tuesday" type="number" value="<?php
+                                                                                                                                                                                                        if (is_array($vehicle_object['min_hours_tuesday'])) {
+                                                                                                                                                                                                            echo "0.00";
+                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                            echo number_format(floatval($vehicle_object['min_hours_tuesday']), 2);
+                                                                                                                                                                                                        }
+
+
+                                                                                                                                                                                                        // echo number_format($vehicle_object['min_hours_tuesday'], 2); 
+                                                                                                                                                                                                        ?>" placeholder="Hours" title="Minimum number of hours for Tuesday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_wednesday" id="min_hours_wednesday" type="text" value="<?php
-                                                                        
-                                                                            if (is_array($vehicle_object['min_hours_wednesday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['min_hours_wednesday']), 2);
-}
-                                                                        
-                                                                        // echo number_format($vehicle_object['min_hours_wednesday'], 2); 
-                                                                                                                                                                                                        ?>" placeholder="Hours" title="Minimum number of hours for Wednesday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_wednesday" id="min_hours_wednesday" type="number" value="<?php
+
+                                                                                                                                                                                                            if (is_array($vehicle_object['min_hours_wednesday'])) {
+                                                                                                                                                                                                                echo "0.00";
+                                                                                                                                                                                                            } else {
+                                                                                                                                                                                                                echo number_format(floatval($vehicle_object['min_hours_wednesday']), 2);
+                                                                                                                                                                                                            }
+
+                                                                                                                                                                                                            // echo number_format($vehicle_object['min_hours_wednesday'], 2); 
+                                                                                                                                                                                                            ?>" placeholder="Hours" title="Minimum number of hours for Wednesday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_thursday" id="min_hours_thursday" type="text" value="<?php
-                                                                        
-                                                                            if (is_array($vehicle_object['min_hours_thursday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['min_hours_thursday']), 2);
-}
-                                                                        // echo number_format($vehicle_object['min_hours_thursday'], 2); 
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_thursday" id="min_hours_thursday" type="number" value="<?php
+
+                                                                                                                                                                                                        if (is_array($vehicle_object['min_hours_thursday'])) {
+                                                                                                                                                                                                            echo "0.00";
+                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                            echo number_format(floatval($vehicle_object['min_hours_thursday']), 2);
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                        // echo number_format($vehicle_object['min_hours_thursday'], 2); 
                                                                                                                                                                                                         ?>" placeholder="Hours" title="Minimum number of hours for Thursday">
                                                                     </div>
                                                                 </div>
@@ -904,17 +943,17 @@ require_once './vehicle_options.php';
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_friday" id="min_hours_friday" type="text" value="<?php 
-                                                                        
-                                                                        
-                                                                            if (is_array($vehicle_object['min_hours_friday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['min_hours_friday']), 2);
-}
-                                                                        
-                                                                        
-                                                                        // echo number_format($vehicle_object['min_hours_friday'], 2); 
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_friday" id="min_hours_friday" type="number" value="<?php
+
+
+                                                                                                                                                                                                    if (is_array($vehicle_object['min_hours_friday'])) {
+                                                                                                                                                                                                        echo "0.00";
+                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                        echo number_format(floatval($vehicle_object['min_hours_friday']), 2);
+                                                                                                                                                                                                    }
+
+
+                                                                                                                                                                                                    // echo number_format($vehicle_object['min_hours_friday'], 2); 
                                                                                                                                                                                                     ?>" placeholder="Hours" title="Minimum number of hours for Friday">
                                                                     </div>
                                                                 </div>
@@ -922,14 +961,14 @@ require_once './vehicle_options.php';
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_saturday" id="min_hours_saturday" type="text" value="<?php 
-                                                                            if (is_array($vehicle_object['min_hours_saturday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['min_hours_saturday']), 2);
-}
-                                                                        
-                                                                        // echo number_format($vehicle_object['min_hours_saturday'], 2); 
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_saturday" id="min_hours_saturday" type="number" value="<?php
+                                                                                                                                                                                                        if (is_array($vehicle_object['min_hours_saturday'])) {
+                                                                                                                                                                                                            echo "0.00";
+                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                            echo number_format(floatval($vehicle_object['min_hours_saturday']), 2);
+                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                        // echo number_format($vehicle_object['min_hours_saturday'], 2); 
                                                                                                                                                                                                         ?>" placeholder="Hours" title="Minimum number of hours for Saturday">
                                                                     </div>
                                                                 </div>
@@ -937,15 +976,15 @@ require_once './vehicle_options.php';
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_sunday" id="min_hours_sunday" type="text" value="<?php  
-                                                                        
-                                                                            if (is_array($vehicle_object['min_hours_sunday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['min_hours_sunday']), 2);
-}
-                                                                        
-                                                                        // echo number_format($vehicle_object['min_hours_sunday'], 2); 
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="min_hours_sunday" id="min_hours_sunday" type="number" value="<?php
+
+                                                                                                                                                                                                    if (is_array($vehicle_object['min_hours_sunday'])) {
+                                                                                                                                                                                                        echo "0.00";
+                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                        echo number_format(floatval($vehicle_object['min_hours_sunday']), 2);
+                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                    // echo number_format($vehicle_object['min_hours_sunday'], 2); 
                                                                                                                                                                                                     ?>" placeholder="Hours" title="Minimum number of hours for Sunday">
                                                                     </div>
                                                                 </div>
@@ -958,97 +997,104 @@ require_once './vehicle_options.php';
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_monday" id="additional_hourly_monday" type="text" value="<?php 
-                                                                            if (is_array($vehicle_object['additional_hourly_monday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['additional_hourly_monday']), 2);
-}
-                                                                        
-                                                                        
-                                                                        // echo number_format($vehicle_object['additional_hourly_monday'], 2); ?>" placeholder="$$" title="Rate for Additional Hours for Monday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_monday" id="additional_hourly_monday" type="number" value="<?php
+                                                                                                                                                                                                                                    if (is_array($vehicle_object['additional_hourly_monday'])) {
+                                                                                                                                                                                                                                        echo "0.00";
+                                                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                                                        echo number_format(floatval($vehicle_object['additional_hourly_monday']), 2);
+                                                                                                                                                                                                                                    }
+
+
+                                                                                                                                                                                                                                    // echo number_format($vehicle_object['additional_hourly_monday'], 2); 
+                                                                                                                                                                                                                                    ?>" placeholder="$$" title="Rate for Additional Hours for Monday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_tuesday" id="additional_hourly_tuesday" type="text" value="<?php
-                                                                        
-                                                                            if (is_array($vehicle_object['additional_hourly_tuesday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['additional_hourly_tuesday']), 2);
-}
-                                                                        // echo number_format($vehicle_object['additional_hourly_tuesday'], 2); ?>" placeholder="$$" title="Rate for Additional Hours for Tuesday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_tuesday" id="additional_hourly_tuesday" type="number" value="<?php
+
+                                                                                                                                                                                                                                    if (is_array($vehicle_object['additional_hourly_tuesday'])) {
+                                                                                                                                                                                                                                        echo "0.00";
+                                                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                                                        echo number_format(floatval($vehicle_object['additional_hourly_tuesday']), 2);
+                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                    // echo number_format($vehicle_object['additional_hourly_tuesday'], 2); 
+                                                                                                                                                                                                                                    ?>" placeholder="$$" title="Rate for Additional Hours for Tuesday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_wednesday" id="additional_hourly_wednesday" type="text" value="<?php 
-                                                                        
-                                                                         if (is_array($vehicle_object['additional_hourly_wednesday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['additional_hourly_wednesday']), 2);
-}
-                                                                        // echo number_format($vehicle_object['additional_hourly_wednesday'], 2); ?>" placeholder="$$" title="Rate for Additional Hours for Wednesday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_wednesday" id="additional_hourly_wednesday" type="number" value="<?php
+
+                                                                                                                                                                                                                                        if (is_array($vehicle_object['additional_hourly_wednesday'])) {
+                                                                                                                                                                                                                                            echo "0.00";
+                                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                                            echo number_format(floatval($vehicle_object['additional_hourly_wednesday']), 2);
+                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                        // echo number_format($vehicle_object['additional_hourly_wednesday'], 2); 
+                                                                                                                                                                                                                                        ?>" placeholder="$$" title="Rate for Additional Hours for Wednesday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_thursday" id="additional_hourly_thursday" type="text" value="<?php 
-                                                                         if (is_array($vehicle_object['additional_hourly_thursday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['additional_hourly_thursday']), 2);
-}
-                                                                        // echo number_format($vehicle_object['additional_hourly_thursday'], 2); ?>" placeholder="$$" title="Rate for Additional Hours for Thursday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_thursday" id="additional_hourly_thursday" type="number" value="<?php
+                                                                                                                                                                                                                                        if (is_array($vehicle_object['additional_hourly_thursday'])) {
+                                                                                                                                                                                                                                            echo "0.00";
+                                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                                            echo number_format(floatval($vehicle_object['additional_hourly_thursday']), 2);
+                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                        // echo number_format($vehicle_object['additional_hourly_thursday'], 2); 
+                                                                                                                                                                                                                                        ?>" placeholder="$$" title="Rate for Additional Hours for Thursday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_friday" id="additional_hourly_friday" type="text" value="<?php 
-                                                                         if (is_array($vehicle_object['additional_hourly_friday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['additional_hourly_friday']), 2);
-}
-                                                                        
-                                                                        // echo number_format($vehicle_object['additional_hourly_friday'], 2); ?>" placeholder="$$" title="Rate for Additional Hours for Friday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_friday" id="additional_hourly_friday" type="number" value="<?php
+                                                                                                                                                                                                                                    if (is_array($vehicle_object['additional_hourly_friday'])) {
+                                                                                                                                                                                                                                        echo "0.00";
+                                                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                                                        echo number_format(floatval($vehicle_object['additional_hourly_friday']), 2);
+                                                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                                                    // echo number_format($vehicle_object['additional_hourly_friday'], 2); 
+                                                                                                                                                                                                                                    ?>" placeholder="$$" title="Rate for Additional Hours for Friday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_saturday" id="additional_hourly_saturday" type="text" value="<?php
-                                                                         if (is_array($vehicle_object['additional_hourly_saturday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['additional_hourly_saturday']), 2);
-}
-                                                                        // echo number_format($vehicle_object['additional_hourly_saturday'], 2); ?>" placeholder="$$" title="Rate for Additional Hours for Saturday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_saturday" id="additional_hourly_saturday" type="number" value="<?php
+                                                                                                                                                                                                                                        if (is_array($vehicle_object['additional_hourly_saturday'])) {
+                                                                                                                                                                                                                                            echo "0.00";
+                                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                                            echo number_format(floatval($vehicle_object['additional_hourly_saturday']), 2);
+                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                        // echo number_format($vehicle_object['additional_hourly_saturday'], 2); 
+                                                                                                                                                                                                                                        ?>" placeholder="$$" title="Rate for Additional Hours for Saturday">
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="ipt_uif_matrix_div_cell">
                                                                     <div class="input-field">
-                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_sunday" id="additional_hourly_sunday" type="text" value="<?php
-                                                                         if (is_array($vehicle_object['additional_hourly_sunday'])) {
-    echo "0.00";
-} else {
-    echo number_format(floatval($vehicle_object['additional_hourly_sunday']), 2);
-}
-                                                                        
-                                                                        // echo number_format($vehicle_object['additional_hourly_sunday'] , 2); ?>" placeholder="$$" title="Rate for Additional Hours for Sunday">
+                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="additional_hourly_sunday" id="additional_hourly_sunday" type="number" value="<?php
+                                                                                                                                                                                                                                    if (is_array($vehicle_object['additional_hourly_sunday'])) {
+                                                                                                                                                                                                                                        echo "0.00";
+                                                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                                                        echo number_format(floatval($vehicle_object['additional_hourly_sunday']), 2);
+                                                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                                                    // echo number_format($vehicle_object['additional_hourly_sunday'] , 2); 
+                                                                                                                                                                                                                                    ?>" placeholder="$$" title="Rate for Additional Hours for Sunday">
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -1095,388 +1141,128 @@ require_once './vehicle_options.php';
                             <div id="special_rates_div" style="display: inline-block;">
                                 <?php
                                 $c = 0;
-                                foreach ($vehicle_object['SpeicalRates'] as $sprIndx => $sprVal) {
-                                    if ($sprIndx !== 'DefaultValues') {
                                 ?>
-                                        <h3><?php echo $sprVal['name_special_rate']; ?></h3>
-                                        <div>
-                                            <div id="special_rates_<?php echo $c; ?>" class="special_rates_div" style="display: inline-block;">
-                                                <input type="hidden" name="special_rate[]" id="special_rate_id_<?php echo $c; ?>" value="<?php echo $sprIndx; ?>">
-                                                <input type="hidden" name="special_rate_deleted[]" id="special_rate_deleted_<?php echo $c; ?>" value="">
-                                                <div class="ipt_uif_column ipt_uif_column_full ipt_uif_conditional ipt_fsqm_container_feedback_small" id="ipt_fsqm_form_52_freetype_16_<?php echo $c; ?>">
-                                                    <div class="ipt_uif_column_inner side_margin">
-                                                        <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
-                                                            <div class="ipt_uif_question_label">
-                                                                <label class="ipt_uif_question_title ipt_uif_label" style="width: 60%; float: left;" for="name_special_rate_<?php echo $c; ?>">Title (Ex: Prom Rates)</label>
-                                                                <button onclick="remove_special_rates(event,<?php echo $c; ?>);" style="color: red; float: right; width: 30%;" title="Remove this Special Rate (<?php echo $sprVal['name_special_rate']; ?>)">Remove Special Rate</button>
-                                                                <div class="clear-both"></div>
-                                                            </div>
-                                                            <div class="ipt_uif_question_content">
-                                                                <div class="input-field has-icon">
-                                                                    <!--  <input class="ipt_uif_text" name="name_special_rate[]" id="name_special_rate_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['name_special_rate']; ?>" title="Name of Special Rate (Ex: Prom Rates)" placeholder="Enter Rate Title">
-                                                                <i title="" class="ipticm prefix" data-ipt-icomoon="&#xe8df;"></i>-->
-                                                                    <?php
-                                                                    $servicetype = array(
-                                                                        "" => "",
-                                                                        "Airport" => "Airport",
-                                                                        "Bachelor Party" => "Bachelor Party",
-                                                                        "Bachelorette Party" => "Bachelorette Party",
-                                                                        "Birthday" => "Birthday",
-                                                                        "Casino" => "Casino",
-                                                                        "Church Function" => "Church Function",
-                                                                        "Concert" => "Concert",
-                                                                        "Convention" => "Convention",
-                                                                        "Corporate Event" => "Corporate Event",
-                                                                        "Cruise Transfers" => "Cruise Transfers",
-                                                                        "Family Reunion" => "Family Reunion",
-                                                                        "General Day Trip" => "General Day Trip",
-                                                                        "Golf Outing" => "Golf Outing",
-                                                                        "Homecoming" => "Homecoming",
-                                                                        "Night out on Town" => "Night out on Town",
-                                                                        "Over the Road" => "Over the Road",
-                                                                        "Prom" => "Prom",
-                                                                        "School Trip" => "School Trip",
-                                                                        "Shuttle Service" => "Shuttle Service",
-                                                                        "Sports Event" => "Sports Event",
-                                                                        "Theme Park" => "Theme Park",
-                                                                        "Transfer" => "Transfer",
-                                                                        "Wedding" => "Wedding",
-                                                                        "Wine Tour" => "Wine Tour",
-                                                                    ); ?><select name="name_special_rate[]" id="name_special_rate_<?php echo $c; ?>" class="form-control">
-                                                                        <?php
-                                                                        foreach ($servicetype as $ind => $key) {
-                                                                            if ($ind == $sprVal['name_special_rate'])
-                                                                                echo '<option value="' . $ind . '" selected>' . $key . '</option>';
-                                                                            else
-                                                                                echo '<option value="' . $ind . '">' . $key . '</option>';
-                                                                        }
-                                                                        ?>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="clear-both"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="clear-both"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="ipt_uif_column ipt_uif_column_full ipt_uif_conditional ipt_fsqm_container_datetime">
-                                                    <div class="ipt_uif_column ipt_uif_column_third ipt_uif_conditional ipt_fsqm_container_datetime" id="ipt_fsqm_form_52_pinfo_3_<?php echo $c; ?>">
-                                                        <div class="ipt_uif_column_inner side_margin">
-                                                            <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
-                                                                <div class="ipt_uif_question_label">
-                                                                    <label class="ipt_uif_question_title ipt_uif_label" for="special_rate_start_from_<?php echo $c; ?>">Start Date</label>
-                                                                    <div class="clear-both"></div>
-                                                                </div>
-                                                                <div class="ipt_uif_question_content">
-                                                                    <div class="input-field eform-dp-input-field has-icon">
-                                                                        <input class="ipt_uif_text datepicker1" name="special_rate_start_from[]" id="special_rate_start_from_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_rate_start_from']; ?>" title="Select Start Date of Special Rate">
-                                                                        <i title="" class="ipt-icomoon-calendar ipticm prefix"></i>
-                                                                    </div>
-                                                                    <div class="clear-both"></div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="clear-both"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="ipt_uif_column ipt_uif_column_third ipt_uif_conditional ipt_fsqm_container_datetime" id="ipt_fsqm_form_52_pinfo_4_<?php echo $c; ?>">
-                                                        <div class="ipt_uif_column_inner side_margin">
-                                                            <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
-                                                                <div class="ipt_uif_question_label">
-                                                                    <label class="ipt_uif_question_title ipt_uif_label" for="special_rate_end_on_<?php echo $c; ?>">End Date</label>
-                                                                    <div class="clear-both"></div>
-                                                                </div>
-                                                                <div class="ipt_uif_question_content">
-                                                                    <div class="input-field eform-dp-input-field has-icon">
-                                                                        <input class="ipt_uif_text datepicker2" name="special_rate_end_on[]" id="special_rate_end_on_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_rate_end_on']; ?>" title="Select End Date of Special Rate">
-                                                                        <i title="" class="ipt-icomoon-calendar ipticm prefix"></i>
-                                                                    </div>
-                                                                    <div class="clear-both"></div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="clear-both"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="ipt_uif_column ipt_uif_column_third ipt_uif_conditional ipt_fsqm_container_feedback_small" id="ipt_fsqm_form_52_freetype_10_<?php echo $c; ?>">
-                                                    <div class="ipt_uif_column_inner side_margin">
-                                                        <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
-                                                            <div class="ipt_uif_question_label">
-                                                                <label class="ipt_uif_question_title ipt_uif_label" for="special_base_hourly_rate_<?php echo $c; ?>">Special Hourly Rate</label>
-                                                                <div class="clear-both"></div>
-                                                            </div>
-                                                            <div class="ipt_uif_question_content">
-                                                                <div class="input-field has-icon">
-                                                                    <input class="ipt_uif_text vndr_currency" onkeyup="return update_special_rates(event,<?php echo $c; ?>, 'hourly');" onchange="return update_special_rates(event,<?php echo $c; ?>, 'hourly');" name="special_base_hourly_rate[]" id="special_base_hourly_rate_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_base_hourly_rate']; ?>" title="Enter Special Hourly Rate" placeholder="Enter Hourly Rate">
-                                                                    <i title="" class="ipticm prefix" data-ipt-icomoon="&#xf155;"></i>
-                                                                </div>
-                                                                <div class="clear-both"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="clear-both"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="ipt_uif_column ipt_uif_column_third ipt_uif_conditional ipt_fsqm_container_feedback_small" id="ipt_fsqm_form_52_freetype_11_<?php echo $c; ?>">
-                                                    <div class="ipt_uif_column_inner side_margin">
-                                                        <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
-                                                            <div class="ipt_uif_question_label">
-                                                                <label class="ipt_uif_question_title ipt_uif_label" for="special_base_min_hours_<?php echo $c; ?>">Minimum Hours</label>
-                                                                <div class="clear-both"></div>
-                                                            </div>
-                                                            <div class="ipt_uif_question_content">
-                                                                <div class="input-field has-icon">
-                                                                    <input class="ipt_uif_text" onkeyup="return update_special_rates(event,<?php echo $c; ?>, 'minhours');" onchange="return update_special_rates(event,<?php echo $c; ?>, 'minhours');" name="special_base_min_hours[]" id="special_base_min_hours_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_base_min_hours']; ?>" title="Enter Minimum Hours" placeholder="Enter Minimum Hours">
-                                                                    <i title="" class="ipticm prefix" data-ipt-icomoon="&#xe082;"></i>
-                                                                </div>
-                                                                <div class="clear-both"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="clear-both"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="ipt_uif_column ipt_uif_column_third ipt_uif_conditional ipt_fsqm_container_feedback_small" id="ipt_fsqm_form_52_freetype_12_<?php echo $c; ?>">
-                                                    <div class="ipt_uif_column_inner side_margin">
-                                                        <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
-                                                            <div class="ipt_uif_question_label">
-                                                                <label class="ipt_uif_question_title ipt_uif_label" for="special_additional_hourly_<?php echo $c; ?>">Additional Hourly Rate</label>
-                                                                <div class="clear-both"></div>
-                                                            </div>
-                                                            <div class="ipt_uif_question_content">
-                                                                <div class="input-field has-icon">
-                                                                    <input class="ipt_uif_text vndr_currency" onkeyup="return update_special_rates(event,<?php echo $c; ?>, 'additional');" onchange="return update_special_rates(event,<?php echo $c; ?>, 'additional');" name="special_base_additional_hourly[]" id="special_additional_hourly_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_base_additional_hourly']; ?>" title="Enter Hourly Rate For Additional Hours (Optional)" placeholder="Enter Rate (Optional)">
-                                                                    <i title="" class="ipticm prefix" data-ipt-icomoon="&#xf155;"></i>
-                                                                </div>
-                                                                <div class="clear-both"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="clear-both"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="ipt_uif_column ipt_uif_column_full ipt_uif_conditional ipt_fsqm_container_toggle" id="ipt_fsqm_form_52_mcq_17_<?php echo $c; ?>" style="">
-                                                    <div class="ipt_uif_column_inner side_margin">
-                                                        <div class="ipt_uif_question ipt_uif_question_vertical">
-                                                            <div class="ipt_uif_question_label"> <label class="ipt_uif_question_title ipt_uif_label" for="custom_special_rates_<?php echo $c; ?>">Set Custom Daily Rates (Optional)</label>
-                                                                <div class="clear-both"></div>
-                                                                <div class="ipt_uif_richtext">
-                                                                    <p>
-                                                                        <em>Use this feature&nbsp;<strong>only</strong>&nbsp;if you have different rates/minimum hours on specific days of the week.</em>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="ipt_uif_question_content">
-                                                                <div class="switch">
-                                                                    <label class="eform-label-with-tabindex" tabindex="0" for="custom_special_rates_<?php echo $c; ?>" data-on="1" data-off="0"> Off
-                                                                        <input class="ipt_uif_switch" onchange="return update_special_custom_rates(event,<?php echo $c; ?>);" name="custom_special_rates[]" id="custom_special_rates_<?php echo $c; ?>" <?php if ($sprVal['custom_special_rates'] == 1 || $sprVal['custom_special_rates'] == '1') echo ' checked '; ?> data-on="1" data-off="0" type="checkbox">
-                                                                        <span class="lever"></span> On </label>
-                                                                </div>
-                                                                <div class="clear-both"></div>
-                                                            </div>
-                                                        </div>
 
+
+
+                                <?php
+                                // print_r($vehicle_special);
+                                // print_r( $vehicle_object['SpeicalRates']);
+
+                                foreach ($vehicle_special as  $sprVal) {
+                                    // if ($sprIndx !== 'DefaultValues' && isset($sprIndx)) {
+                                    // print_r($sprVal);
+
+                                ?>
+                                    <h3 id="special_rates_heading_<?php echo $c; ?>">NEW RATE</h3>
+
+                                    <div>
+                                        <div id="special_rates_<?php echo $c; ?>" class="special_rates_div" style="display: inline-block;">
+                                            <input type="hidden" name="special_rate[]" id="special_rate_id_<?php echo $c; ?>" value="<?php echo $sprVal['id']; ?>">
+                                            <input type="hidden" name="special_rate_deleted[]" id="special_rate_deleted_<?php echo $c; ?>" value="<?php echo $c; ?>">
+                                            <input type="hidden" name="special_rate_deleted_id" id="special_rate_deleted_id_<?php echo $c; ?>" value="">
+                                            <div class="ipt_uif_column ipt_uif_column_full ipt_uif_conditional ipt_fsqm_container_feedback_small" id="ipt_fsqm_form_52_freetype_16_<?php echo $c; ?>">
+                                                <div class="ipt_uif_column_inner side_margin">
+                                                    <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
+                                                        <div class="ipt_uif_question_label">
+                                                            <!-- onclick="remove_special_rates(event,<?php // echo $c; 
+                                                                                                        ?>);" -->
+                                                            <label class="ipt_uif_question_title ipt_uif_label" style="width: 60%; float: left;" for="name_special_rate_<?php echo $c; ?>">Title (Ex: Prom Rates)</label>
+                                                            <button id="remove_sp_rate_<?php echo $c; ?>" onclick="remove_special_rates(event,<?php echo $c; ?>);" style=" color: red; float: right; width: 30%;" title="Remove this Special Rate (<?php echo $sprVal['name_special_rate']; ?>)">Remove Special Rate</button>
+                                                            <div class="clear-both"></div>
+
+                                                            <!-- </script> -->
+                                                        </div>
+                                                        <div class="ipt_uif_question_content">
+                                                            <div class="input-field has-icon">
+                                                                <!--  <input class="ipt_uif_text" name="name_special_rate[]" id="name_special_rate_<?php //echo $c; 
+                                                                                                                                                    ?>" type="text" value="<?php // echo $sprVal['name_special_rate']; 
+                                                                                                                                                                            ?>" title="Name of Special Rate (Ex: Prom Rates)" placeholder="Enter Rate Title">
+                                                                <i title="" class="ipticm prefix" data-ipt-icomoon="&#xe8df;"></i>-->
+                                                                <?php
+                                                                $servicetype = array(
+                                                                    "" => "",
+                                                                    "Airport" => "Airport",
+                                                                    "Bachelor Party" => "Bachelor Party",
+                                                                    "Bachelorette Party" => "Bachelorette Party",
+                                                                    "Birthday" => "Birthday",
+                                                                    "Casino" => "Casino",
+                                                                    "Church Function" => "Church Function",
+                                                                    "Concert" => "Concert",
+                                                                    "Convention" => "Convention",
+                                                                    "Corporate Event" => "Corporate Event",
+                                                                    "Cruise Transfers" => "Cruise Transfers",
+                                                                    "Family Reunion" => "Family Reunion",
+                                                                    "General Day Trip" => "General Day Trip",
+                                                                    "Golf Outing" => "Golf Outing",
+                                                                    "Homecoming" => "Homecoming",
+                                                                    "Night out on Town" => "Night out on Town",
+                                                                    "Over the Road" => "Over the Road",
+                                                                    "Prom" => "Prom",
+                                                                    "School Trip" => "School Trip",
+                                                                    "Shuttle Service" => "Shuttle Service",
+                                                                    "Sports Event" => "Sports Event",
+                                                                    "Theme Park" => "Theme Park",
+                                                                    "Transfer" => "Transfer",
+                                                                    "Wedding" => "Wedding",
+                                                                    "Wine Tour" => "Wine Tour",
+                                                                ); ?><select name="name_special_rate[]" id="name_special_rate_<?php echo $c; ?>" class="form-control">
+                                                                    <?php
+                                                                    foreach ($servicetype as $ind => $key) {
+                                                                        if ($ind == $sprVal['name'])
+                                                                            echo '<option value="' . $ind . '" selected>' . $key . '</option>';
+                                                                        else
+                                                                            echo '<option value="' . $ind . '">' . $key . '</option>';
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="clear-both"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clear-both"></div>
+                                                </div>
+                                            </div>
+                                            <div class="ipt_uif_column ipt_uif_column_full ipt_uif_conditional ipt_fsqm_container_datetime">
+                                                <div class="ipt_uif_column ipt_uif_column_third ipt_uif_conditional ipt_fsqm_container_datetime" id="ipt_fsqm_form_52_pinfo_3_<?php echo $c; ?>">
+                                                    <div class="ipt_uif_column_inner side_margin">
+                                                        <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
+                                                            <div class="ipt_uif_question_label">
+                                                                <label class="ipt_uif_question_title ipt_uif_label" for="special_rate_start_from_<?php echo $c; ?>">Start Date</label>
+                                                                <div class="clear-both"></div>
+                                                            </div>
+                                                            <div class="ipt_uif_question_content">
+                                                                <div class="input-field eform-dp-input-field has-icon">
+                                                                    <!-- <input class="ipt_uif_text datepicker1" name="special_rate_start_from[]" id="special_rate_start_from_<?php //echo $c; 
+                                                                                                                                                                                ?>" type="date" value="<?php //echo $sprVal['special_rate_start_from']; 
+                                                                                                                                                                                                        ?>" title="Select Start Date of Special Rate"> -->
+                                                                    <?php
+
+                                                                    // print_r($sprVal);                                                                                                                                                                        
+                                                                    ?>
+                                                                    <input class="ipt_uif_text datepicker1" name="special_rate_start_from[]" id="special_rate_start_from_1" type="date" value="<?php echo date('Y-m-d', !empty($sprVal['special_rate_start_from']) ? strtotime($sprVal['special_rate_start_from']) : time()); ?>" title="Select Start Date of Special Rate">
+                                                                    <i title="" class="ipt-icomoon-calendar ipticm prefix"></i>
+                                                                </div>
+                                                                <div class="clear-both"></div>
+                                                            </div>
+                                                        </div>
                                                         <div class="clear-both"></div>
                                                     </div>
                                                 </div>
-                                                <div class="ipt_uif_column ipt_uif_column_full ipt_uif_conditional ipt_fsqm_container_feedback_matrix iptUIFCHidden" id="custom_special_rates_area_<?php echo $c; ?>" <?php
-                                                                                                                                                                                                                        if ($sprVal['custom_special_rates'] == 1 || $sprVal['custom_special_rates'] == '1')
-                                                                                                                                                                                                                            echo ' style="display: block;" ';
-                                                                                                                                                                                                                        else
-                                                                                                                                                                                                                            echo ' style="display: none;" ';
-                                                                                                                                                                                                                        ?>>
+                                                <div class="ipt_uif_column ipt_uif_column_third ipt_uif_conditional ipt_fsqm_container_datetime" id="ipt_fsqm_form_52_pinfo_4_<?php echo $c; ?>">
                                                     <div class="ipt_uif_column_inner side_margin">
                                                         <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
+                                                            <div class="ipt_uif_question_label">
+                                                                <label class="ipt_uif_question_title ipt_uif_label" for="special_rate_end_on_<?php echo $c; ?>">End Date</label>
+                                                                <div class="clear-both"></div>
+                                                            </div>
                                                             <div class="ipt_uif_question_content">
-                                                                <div class="ipt_uif_matrix_container ipt_uif_matrix_feedback">
-                                                                    <table class="ipt_uif_matrix highlight bordered">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th scope="col" style="width: 23%;"></th>
-                                                                                <th scope="col" style="width: 11%;">
-                                                                                    <div class="ipt_uif_matrix_div_cell">Monday</div>
-                                                                                </th>
-                                                                                <th scope="col" style="width: 11%;">
-                                                                                    <div class="ipt_uif_matrix_div_cell">Tuesday</div>
-                                                                                </th>
-                                                                                <th scope="col" style="width: 11%;">
-                                                                                    <div class="ipt_uif_matrix_div_cell">Wednesday</div>
-                                                                                </th>
-                                                                                <th scope="col" style="width: 11%;">
-                                                                                    <div class="ipt_uif_matrix_div_cell">Thursday</div>
-                                                                                </th>
-                                                                                <th scope="col" style="width: 11%;">
-                                                                                    <div class="ipt_uif_matrix_div_cell">Friday</div>
-                                                                                </th>
-                                                                                <th scope="col" style="width: 11%;">
-                                                                                    <div class="ipt_uif_matrix_div_cell">Saturday</div>
-                                                                                </th>
-                                                                                <th scope="col" style="width: 11%;">
-                                                                                    <div class="ipt_uif_matrix_div_cell">Sunday</div>
-                                                                                </th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <th scope="row">
-                                                                                    <div class="ipt_uif_matrix_div_cell">Hourly Rate ($)</div>
-                                                                                </th>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_monday[]" id="special_hourly_rate_monday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_hourly_rate_monday']; ?>" placeholder="$$" title="Hourly Rate for Monday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_tuesday[]" id="special_hourly_rate_tuesday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_hourly_rate_tuesday']; ?>" placeholder="$$" title="Hourly Rate for Tuesday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_wednesday[]" id="special_hourly_rate_wednesday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_hourly_rate_wednesday']; ?>" placeholder="$$" title="Hourly Rate for Wednesday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_thursday[]" id="special_hourly_rate_thursday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_hourly_rate_thursday']; ?>" placeholder="$$" title="Hourly Rate for Thursday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_friday[]" id="special_hourly_rate_friday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_hourly_rate_friday']; ?>" placeholder="$$" title="Hourly Rate for Friday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_saturday[]" id="special_hourly_rate_saturday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_hourly_rate_saturday']; ?>" placeholder="$$" title="Hourly Rate for Saturday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_sunday[]" id="special_hourly_rate_sunday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_hourly_rate_sunday']; ?>" placeholder="$$" title="Hourly Rate for Sunday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <th scope="row">
-                                                                                    <div class="ipt_uif_matrix_div_cell">Minimum Hours</div>
-                                                                                </th>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_monday[]" id="special_min_hours_monday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_min_hours_monday']; ?>" placeholder="Hours" title="Minimum number of hours for Monday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_tuesday[]" id="special_min_hours_tuesday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_min_hours_tuesday']; ?>" placeholder="Hours" title="Minimum number of hours for Tuesday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_wednesday[]" id="special_min_hours_wednesday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_min_hours_wednesday']; ?>" placeholder="Hours" title="Minimum number of hours for Wednesday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_thursday[]" id="special_min_hours_thursday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_min_hours_thursday']; ?>" placeholder="Hours" title="Minimum number of hours for Thursday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_friday[]" id="special_min_hours_friday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_min_hours_friday']; ?>" placeholder="Hours" title="Minimum number of hours for Friday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_saturday[]" id="special_min_hours_saturday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_min_hours_saturday']; ?>" placeholder="Hours" title="Minimum number of hours for Saturday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_sunday[]" id="special_min_hours_sunday_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_min_hours_sunday']; ?>" placeholder="Hours" title="Minimum number of hours for Sunday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <th scope="row">
-                                                                                    <div class="ipt_uif_matrix_div_cell">Rate for Additional Hours ($)</div>
-                                                                                </th>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_mon[]" id="special_additional_hourly_mon_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_additional_hourly_mon']; ?>" placeholder="$$" title="Rate for Additional Hours for Monday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_tue[]" id="special_additional_hourly_tue_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_additional_hourly_tue']; ?>" placeholder="$$" title="Rate for Additional Hours for Tuesday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_wed[]" id="special_additional_hourly_wed_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_additional_hourly_wed']; ?>" placeholder="$$" title="Rate for Additional Hours for Wednesday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_thu[]" id="special_additional_hourly_thu_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_additional_hourly_thu']; ?>" placeholder="$$" title="Rate for Additional Hours for Thursday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_fri[]" id="special_additional_hourly_fri_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_additional_hourly_fri']; ?>" placeholder="$$" title="Rate for Additional Hours for Friday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_sat[]" id="special_additional_hourly_sat_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_additional_hourly_sat']; ?>" placeholder="$$" title="Rate for Additional Hours for Saturday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="ipt_uif_matrix_div_cell">
-                                                                                        <div class="input-field">
-                                                                                            <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_sun[]" id="special_additional_hourly_sun_<?php echo $c; ?>" type="text" value="<?php echo $sprVal['special_additional_hourly_sun']; ?>" placeholder="$$" title="Rate for Additional Hours for Sunday">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
+                                                                <div class="input-field eform-dp-input-field has-icon">
+                                                                    <input class="ipt_uif_text datepicker2" name="special_rate_end_on[]" id="special_rate_end_on_<?php echo $c; ?>" type="date" value="<?php echo date('Y-m-d', !empty($sprVal['special_rate_end_on']) ? strtotime($sprVal['special_rate_end_on']) : time());
+
+
+                                                                                                                                                                                                        ?>" title="Select End Date of Special Rate">
+                                                                    <i title="" class="ipt-icomoon-calendar ipticm prefix"></i>
                                                                 </div>
                                                                 <div class="clear-both"></div>
                                                             </div>
@@ -1485,10 +1271,298 @@ require_once './vehicle_options.php';
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="ipt_uif_column ipt_uif_column_third ipt_uif_conditional ipt_fsqm_container_feedback_small" id="ipt_fsqm_form_52_freetype_10_<?php echo $c; ?>">
+                                                <div class="ipt_uif_column_inner side_margin">
+                                                    <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
+                                                        <div class="ipt_uif_question_label">
+                                                            <label class="ipt_uif_question_title ipt_uif_label" for="special_base_hourly_rate_<?php echo $c; ?>">Special Hourly Rate</label>
+                                                            <div class="clear-both"></div>
+                                                        </div>
+                                                        <div class="ipt_uif_question_content">
+                                                            <div class="input-field has-icon">
+                                                                <input class="ipt_uif_text vndr_currency" onkeyup="return update_special_rates(event,<?php echo $c; ?>, 'hourly');" onchange="return update_special_rates(event,<?php echo $c; ?>, 'hourly');" name="special_base_hourly_rate[]" id="special_base_hourly_rate_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['base_hourly_rate']; ?>" title="Enter Special Hourly Rate" placeholder="Enter Hourly Rate">
+                                                                <i title="" class="ipticm prefix" data-ipt-icomoon="&#xf155;"></i>
+                                                            </div>
+                                                            <div class="clear-both"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clear-both"></div>
+                                                </div>
+                                            </div>
+                                            <div class="ipt_uif_column ipt_uif_column_third ipt_uif_conditional ipt_fsqm_container_feedback_small" id="ipt_fsqm_form_52_freetype_11_<?php echo $c; ?>">
+                                                <div class="ipt_uif_column_inner side_margin">
+                                                    <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
+                                                        <div class="ipt_uif_question_label">
+                                                            <label class="ipt_uif_question_title ipt_uif_label" for="special_base_min_hours_<?php echo $c; ?>">Minimum Hours</label>
+                                                            <div class="clear-both"></div>
+                                                        </div>
+                                                        <div class="ipt_uif_question_content">
+                                                            <div class="input-field has-icon">
+                                                                <input class="ipt_uif_text" onkeyup="return update_special_rates(event,<?php echo $c; ?>, 'minhours');" onchange="return update_special_rates(event,<?php echo $c; ?>, 'minhours');" name="special_base_min_hours[]" id="special_base_min_hours_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['base_min_hours']; ?>" title="Enter Minimum Hours" placeholder="Enter Minimum Hours">
+                                                                <i title="" class="ipticm prefix" data-ipt-icomoon="&#xe082;"></i>
+                                                            </div>
+                                                            <div class="clear-both"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clear-both"></div>
+                                                </div>
+                                            </div>
+                                            <div class="ipt_uif_column ipt_uif_column_third ipt_uif_conditional ipt_fsqm_container_feedback_small" id="ipt_fsqm_form_52_freetype_12_<?php echo $c; ?>">
+                                                <div class="ipt_uif_column_inner side_margin">
+                                                    <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
+                                                        <div class="ipt_uif_question_label">
+                                                            <label class="ipt_uif_question_title ipt_uif_label" for="special_additional_hourly_<?php echo $c; ?>">Additional Hourly Rate</label>
+                                                            <div class="clear-both"></div>
+                                                        </div>
+                                                        <div class="ipt_uif_question_content">
+                                                            <div class="input-field has-icon">
+                                                                <input class="ipt_uif_text vndr_currency" onkeyup="return update_special_rates(event,<?php echo $c; ?>, 'additional');" onchange="return update_special_rates(event,<?php echo $c; ?>, 'additional');" name="special_base_additional_hourly[]" id="special_additional_hourly_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['base_additional_hourly']; ?>" title="Enter Hourly Rate For Additional Hours (Optional)" placeholder="Enter Rate (Optional)">
+                                                                <i title="" class="ipticm prefix" data-ipt-icomoon="&#xf155;"></i>
+                                                            </div>
+                                                            <div class="clear-both"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clear-both"></div>
+                                                </div>
+                                            </div>
+                                            <div class="ipt_uif_column ipt_uif_column_full ipt_uif_conditional ipt_fsqm_container_toggle" id="ipt_fsqm_form_52_mcq_17_<?php echo $c; ?>" style="">
+                                                <div class="ipt_uif_column_inner side_margin">
+                                                    <div class="ipt_uif_question ipt_uif_question_vertical">
+                                                        <div class="ipt_uif_question_label"> <label class="ipt_uif_question_title ipt_uif_label" for="custom_special_rates_<?php echo $c; ?>">Set Custom Daily Rates (Optional)</label>
+                                                            <div class="clear-both"></div>
+                                                            <div class="ipt_uif_richtext">
+                                                                <p>
+                                                                    <em>Use this feature&nbsp;<strong>only</strong>&nbsp;if you have different rates/minimum hours on specific days of the week.</em>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ipt_uif_question_content">
+                                                            <div class="switch">
+                                                                <label class="eform-label-with-tabindex" tabindex="0" for="custom_special_rates_<?php echo $c; ?>" data-on="1" data-off="0"> Off
+                                                                    <input class="ipt_uif_switch" onchange="return update_special_custom_rates(event,<?php echo $c; ?>);" name="custom_special_rates[]" id="custom_special_rates_<?php echo $c; ?>" <?php if ($sprVal['custom_special_rates'] == 1 || $sprVal['custom_special_rates'] == '1') echo ' checked '; ?> data-on="1" data-off="0" type="checkbox">
+                                                                    <span class="lever"></span> On </label>
+                                                            </div>
+                                                            <div class="clear-both"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="clear-both"></div>
+                                                </div>
+                                            </div>
+                                            <div class="ipt_uif_column ipt_uif_column_full ipt_uif_conditional ipt_fsqm_container_feedback_matrix iptUIFCHidden" id="custom_special_rates_area_<?php echo $c; ?>" <?php
+                                                                                                                                                                                                                    if ($sprVal['custom_special_rates'] == 1 || $sprVal['custom_special_rates'] == '1')
+                                                                                                                                                                                                                        echo ' style="display: block;" ';
+                                                                                                                                                                                                                    else
+                                                                                                                                                                                                                        echo ' style="display: none;" ';
+                                                                                                                                                                                                                    ?>>
+                                                <div class="ipt_uif_column_inner side_margin">
+                                                    <div class="ipt_uif_question ipt_uif_question_vertical ipt_uif_question_full">
+                                                        <div class="ipt_uif_question_content">
+                                                            <div class="ipt_uif_matrix_container ipt_uif_matrix_feedback">
+                                                                <table class="ipt_uif_matrix highlight bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col" style="width: 23%;"></th>
+                                                                            <th scope="col" style="width: 11%;">
+                                                                                <div class="ipt_uif_matrix_div_cell">Monday</div>
+                                                                            </th>
+                                                                            <th scope="col" style="width: 11%;">
+                                                                                <div class="ipt_uif_matrix_div_cell">Tuesday</div>
+                                                                            </th>
+                                                                            <th scope="col" style="width: 11%;">
+                                                                                <div class="ipt_uif_matrix_div_cell">Wednesday</div>
+                                                                            </th>
+                                                                            <th scope="col" style="width: 11%;">
+                                                                                <div class="ipt_uif_matrix_div_cell">Thursday</div>
+                                                                            </th>
+                                                                            <th scope="col" style="width: 11%;">
+                                                                                <div class="ipt_uif_matrix_div_cell">Friday</div>
+                                                                            </th>
+                                                                            <th scope="col" style="width: 11%;">
+                                                                                <div class="ipt_uif_matrix_div_cell">Saturday</div>
+                                                                            </th>
+                                                                            <th scope="col" style="width: 11%;">
+                                                                                <div class="ipt_uif_matrix_div_cell">Sunday</div>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th scope="row">
+                                                                                <div class="ipt_uif_matrix_div_cell">Hourly Rate ($)</div>
+                                                                            </th>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_monday[]" id="special_hourly_rate_monday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['hourly_rate_monday']; ?>" placeholder="$$" title="Hourly Rate for Monday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_tuesday[]" id="special_hourly_rate_tuesday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['hourly_rate_tuesday']; ?>" placeholder="$$" title="Hourly Rate for Tuesday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_wednesday[]" id="special_hourly_rate_wednesday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['hourly_rate_wednesday']; ?>" placeholder="$$" title="Hourly Rate for Wednesday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_thursday[]" id="special_hourly_rate_thursday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['hourly_rate_thursday']; ?>" placeholder="$$" title="Hourly Rate for Thursday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_friday[]" id="special_hourly_rate_friday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['hourly_rate_friday']; ?>" placeholder="$$" title="Hourly Rate for Friday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_saturday[]" id="special_hourly_rate_saturday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['hourly_rate_saturday']; ?>" placeholder="$$" title="Hourly Rate for Saturday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_hourly_rate_sunday[]" id="special_hourly_rate_sunday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['hourly_rate_sunday']; ?>" placeholder="$$" title="Hourly Rate for Sunday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row">
+                                                                                <div class="ipt_uif_matrix_div_cell">Minimum Hours</div>
+                                                                            </th>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_monday[]" id="special_min_hours_monday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['min_hours_monday']; ?>" placeholder="Hours" title="Minimum number of hours for Monday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_tuesday[]" id="special_min_hours_tuesday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['min_hours_tuesday']; ?>" placeholder="Hours" title="Minimum number of hours for Tuesday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_wednesday[]" id="special_min_hours_wednesday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['min_hours_wednesday']; ?>" placeholder="Hours" title="Minimum number of hours for Wednesday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_thursday[]" id="special_min_hours_thursday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['min_hours_thursday']; ?>" placeholder="Hours" title="Minimum number of hours for Thursday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_friday[]" id="special_min_hours_friday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['min_hours_friday']; ?>" placeholder="Hours" title="Minimum number of hours for Friday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_saturday[]" id="special_min_hours_saturday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['min_hours_saturday']; ?>" placeholder="Hours" title="Minimum number of hours for Saturday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text" name="special_min_hours_sunday[]" id="special_min_hours_sunday_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['min_hours_sunday']; ?>" placeholder="Hours" title="Minimum number of hours for Sunday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row">
+                                                                                <div class="ipt_uif_matrix_div_cell">Rate for Additional Hours ($)</div>
+                                                                            </th>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_mon[]" id="special_additional_hourly_mon_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['additional_hourly_monday']; ?>" placeholder="$$" title="Rate for Additional Hours for Monday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_tue[]" id="special_additional_hourly_tue_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['additional_hourly_tuesday']; ?>" placeholder="$$" title="Rate for Additional Hours for Tuesday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_wed[]" id="special_additional_hourly_wed_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['additional_hourly_wednesday']; ?>" placeholder="$$" title="Rate for Additional Hours for Wednesday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_thu[]" id="special_additional_hourly_thu_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['additional_hourly_thursday']; ?>" placeholder="$$" title="Rate for Additional Hours for Thursday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_fri[]" id="special_additional_hourly_fri_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['additional_hourly_friday']; ?>" placeholder="$$" title="Rate for Additional Hours for Friday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_sat[]" id="special_additional_hourly_sat_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['additional_hourly_saturday']; ?>" placeholder="$$" title="Rate for Additional Hours for Saturday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ipt_uif_matrix_div_cell">
+                                                                                    <div class="input-field">
+                                                                                        <input class="ipt_uif_matrix_text check_me ipt_uif_text vndr_currency" name="special_additional_hourly_sun[]" id="special_additional_hourly_sun_<?php echo $c; ?>" type="number" value="<?php echo $sprVal['additional_hourly_sunday']; ?>" placeholder="$$" title="Rate for Additional Hours for Sunday">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="clear-both"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clear-both"></div>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div>
                                 <?php
-                                        $c++;
-                                    }
+                                    $c++;
+                                    // }
                                 }
                                 ?>
                             </div>
@@ -1501,7 +1575,7 @@ require_once './vehicle_options.php';
                         <div id="ipt_fsqm_form_52_layout_4_inner" class="ipt-eform-layout-wrapper">
                             <div class="ipt_uif_column ipt_uif_column_full ipt_uif_conditional ipt_fsqm_main_heading_column">
                                 <div class="ipt_uif_column_inner">
-                                    <h3 class="ipt_fsqm_main_heading ipt_uif_heading ipt_uif_divider ipt_uif_align_left ipt_uif_divider_no_icon ipt_uif_divider_icon_no_bg"> <span class="ipt_uif_divider_text"> <span class="ipt_uif_divider_text_inner"> SURCHARGES (OPTIONAL)<span class="subtitle">Page 5 of 6</span> </span> </span>
+                                    <h3 class="ipt_fsqm_main_heading ipt_uif_heading ipt_uif_divider ipt_uif_align_left ipt_uif_divider_no_icon ipt_uif_divider_icon_no_bg"> <span class="ipt_uif_divider_text"> <span class="ipt_uif_divider_text_inner"> SURCHARGES<span class="subtitle">Page 5 of 6</span> </span> </span>
                                     </h3>
                                     <div class="clear-both">
                                     </div>
@@ -1509,9 +1583,7 @@ require_once './vehicle_options.php';
                             </div>
                             <div class="ipt_uif_column ipt_uif_column_full ipt_uif_conditional">
                                 <div class="ipt_uif_column_inner side_margin">
-                                    <p>
-                                        <em>If you wish to <strong>not</strong> apply surcharges <strong>for this vehicle</strong>, you may skip this step.</em>
-                                    </p>
+
                                     <div class="clear-both">
                                     </div>
                                 </div>
@@ -1525,7 +1597,11 @@ require_once './vehicle_options.php';
                                         </div>
                                         <div class="ipt_uif_question_content">
                                             <div class="input-field has-icon">
-                                                <input class="ipt_uif_text" name="fuel_surcharge_percentage" id="fuel_surcharge_percentage" type="text" value="<?php echo $vehicle_object['fuel_surcharge_percentage']; ?>" title="Enter Fuel Surcharge Percentage" style="max-width: 60px; padding-left: 10px;">
+                                                <input class="ipt_uif_text" name="fuel_surcharge_percentage" id="fuel_surcharge_percentage" type="number" value="<?php if (!empty($vehicle_object['fuel_surcharge_percentage'])) {
+                                                                                                                                                                        echo $vehicle_object['fuel_surcharge_percentage'];
+                                                                                                                                                                    } else {
+                                                                                                                                                                        echo "0";
+                                                                                                                                                                    }  ?>" title="Enter Fuel Surcharge Percentage" style="max-width: 60px; padding-left: 10px;">
                                                 <i title="" class="ipticm prefix" data-ipt-icomoon="&#xf295;" style="left: 50px;"></i>
                                             </div>
                                             <div class="clear-both"></div>
@@ -1543,7 +1619,11 @@ require_once './vehicle_options.php';
                                         </div>
                                         <div class="ipt_uif_question_content">
                                             <div class="input-field has-icon">
-                                                <input class="ipt_uif_text" name="driver_gratuity_percentage" id="driver_gratuity_percentage" type="text" value="<?php echo $vehicle_object['driver_gratuity_percentage']; ?>" title="Enter Driver Gratuity Percentage" style="max-width: 60px; padding-left: 10px;">
+                                                <input class="ipt_uif_text" name="driver_gratuity_percentage" id="driver_gratuity_percentage" type="number" value="<?php if (!empty($vehicle_object['driver_gratuity_percentage'])) {
+                                                                                                                                                                        echo $vehicle_object['driver_gratuity_percentage'];
+                                                                                                                                                                    } else {
+                                                                                                                                                                        echo "0";
+                                                                                                                                                                    }  ?>" title="Enter Driver Gratuity Percentage" style="max-width: 60px; padding-left: 10px;">
                                                 <i title="" class="ipticm prefix" data-ipt-icomoon="&#xf295;" style="left: 50px;"></i>
                                             </div>
                                             <div class="clear-both"></div>
@@ -1585,6 +1665,10 @@ require_once './vehicle_options.php';
                                         <div class="ipt_uif_container_inner" id="append_images">
                                             <?php
                                             $countr = 0;
+                                            if (is_string($vehicle_object['images'])) {
+                                                $vehicle_object['images'] = explode(",", $vehicle_object['images']);
+                                            }
+                                            // print_r($vehicle_object['images']);
                                             foreach ($vehicle_object['images'] as $img) {
                                                 if (file_exists("vehicles/" . $img) && !empty($img)) {
                                             ?>
@@ -1635,7 +1719,7 @@ require_once './vehicle_options.php';
                                         </div>
                                     </div>
                                     <div class="clear-both"></div>
-                                    <input type="submit" value="Submit" class="vehicleAddBtn">
+                                    <input type="submit" value="Submit" class="vehicleAddBtn" id="save-btn-main">
                                 </div>
                             </div>
                         </div>
@@ -1691,10 +1775,712 @@ require_once './vehicle_options.php';
 <script type="text/javascript" src="SmartWizard/dist/js/jquery.smartWizard.min.js"></script>
 
 <script>
-    document.getElementById('save-btn').addEventListener('click', function() {
-        document.getElementById('registration_form').submit();
+    let check = true; // Initially set to true assuming all fields are valid
+    let invalidField;
+    let allInputs = document.querySelectorAll('#smartwizard input');
+    // for (let i = 0; i < allInputs.length; i++) {
+    //     // Check if input type is 'text' or 'number'
+    //     if (allInputs[i].type === 'text' || allInputs[i].type === 'number') {
+    //         // Define a regular expression to match special characters
+    //         let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    //         // Check if the input value contains any special characters
+    //         if (specialCharacters.test(allInputs[i].value)) {
+    //             check = false; // Set to false if special characters found
+    //             invalidField = allInputs[i];
+    //             break; // Exit loop if a special character is found
+    //         }
+    //     }
+    // }
+
+
+
+    for (let i = 0; i < allInputs.length; i++) {
+        // Check if input type is 'text' or 'number'
+        if (allInputs[i.value == '']) {
+            alert("it is empty");
+
+        }
+        if (allInputs[i].type === 'text' || allInputs[i].type === 'number') {
+            // Define a regular expression to match special characters
+            let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+            // Check if the input value contains any special characters or is empty
+            if (specialCharacters.test(allInputs[i].value)) {
+                check = false; // Set to false if special characters found or input is empty
+                invalidField = allInputs[i];
+                break; // Exit loop if a special character or empty input is found
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    // document.getElementById('vehicle_images').addEventListener('change', function(event) {
+    //     var files = event.target.files; // Get the selected files
+
+    //     // Check if there are less than 2 images
+    //     if (files.length < 2) {
+    //         alert('Please select at least 2 images.');
+    //         return; // Exit the function if less than 2 images are selected
+    //     }
+
+    //     var totalSize = 0;
+    //     var maxSize = 1 * 1024 * 1024; // 1 MB in bytes
+
+    //     // Iterate over the selected files
+    //     for (var i = 0; i < files.length; i++) {
+    //         var file = files[i];
+
+    //         // Check the size of each file
+    //         totalSize += file.size;
+
+    //         // Check if the size of any file exceeds 1 MB
+    //         if (file.size > maxSize) {
+    //             alert('File size exceeds 1 MB limit.');
+    //             check = false;
+    //             return; // Exit the function if any file size exceeds the limit
+    //         }
+    //     }
+
+    //     // Check if the total size of all files exceeds 1 MB
+    //     if (totalSize > maxSize) {
+    //         check = false;
+    //         alert('Total size of selected images exceeds 1 MB limit.');
+    //         return; // Exit the function if total size exceeds the limit
+    //     }
+
+    //     // If all validations pass, you can proceed with further actions here
+    //     // For example, you can submit the form or perform any other action
+    // });
+
+
+    // document.getElementById('save-btn').addEventListener('click', function() {
+    //     if (check) {
+    //         document.getElementById('registration_form').submit();
+    //     } else {
+    //         alert('Fill the fields properly!!');
+    //         console.log(invalidField)
+    //     }
+    // });
+    // Variable to keep track of invalid fields
+    // var invalidFields = [];
+
+    // document.getElementById('save-btn').addEventListener('click', function() {
+    //     // Reset the list of invalid fields
+    //     invalidFields = [];
+
+    //     // Your existing validation logic here
+    //     // For example, checking for special characters in input fields
+
+    //     // Loop over input fields
+    //     allInputs.forEach(function(inputElement) {
+    //         // Check if input type is 'text' or 'number'
+    //         if (inputElement.type === 'text') {
+    //             // Define a regular expression to match special characters
+    //             var specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    //             // Check if the input value contains any special characters
+    //             if (specialCharacters.test(inputElement.value)) {
+    //                 invalidFields.push(inputElement); // Add the invalid field to the list
+    //             }
+    //         }
+    //     });
+
+    //     // If there are invalid fields, show an alert and log them
+    //     if (invalidFields.length > 0) {
+    //         var errorMessage = 'Fill the following fields properly:\n';
+    //         invalidFields.forEach(function(field) {
+    //             errorMessage += '- ' + (field.placeholder || field.title) + '\n';
+    //         });
+    //         alert(errorMessage);
+    //         console.log(invalidFields);
+    //     } else {
+    //         // If all fields are valid, submit the form
+    //         document.getElementById('registration_form').submit();
+    //     }
+    // });
+
+    document.getElementById('save-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        // Reset the list of invalid fields
+        var invalidFields = [];
+
+        // Validate text and number input fields
+        allInputs.forEach(function(inputElement) {
+            // Check if input type is 'text' or 'number'
+            if (inputElement.type === 'text') {
+                // Define a regular expression to match special characters
+                var specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+                // Check if the input value contains any special characters
+                if (specialCharacters.test(inputElement.value) || inputElement.value == '') {
+                    invalidFields.push(inputElement); // Add the invalid field to the list
+                }
+            }
+        });
+
+
+        let allSelects = document.querySelectorAll('select');
+
+
+        for (let i = 0; i < allSelects.length; i++) {
+            if (!allSelects[i].value) {
+                check = false; // Set to false if no option is selected
+                invalidFields.push("Kindly Select a field for " + allSelects[i].name);
+                // console.log(allSelects[i].name);
+                break; // Exit loop if no option is selected
+            }
+        }
+        let allDateInputs = document.querySelectorAll('input[type="date"]');
+
+
+        for (let i = 0; i < allDateInputs.length; i++) {
+            if (!allDateInputs[i].value) {
+                check = false; // Set to false if no option is selected
+                invalidFields.push("Kindly Select a date for " + allDateInputs[i].name);
+                // console.log(allSelects[i].name);
+                break; // Exit loop if no option is selected
+            }
+        }
+        let allNumberInputs = document.querySelectorAll('input[type="number"]');
+
+
+        for (let i = 0; i < allNumberInputs.length; i++) {
+            if (allNumberInputs[i].value < 1) {
+                check = false; // Set to false if no option is selected
+                invalidFields.push("Kindly add a value for  " + allNumberInputs[i].name);
+                console.log(allNumberInputs[i].value);
+                break; // Exit loop if no option is selected
+            }
+        }
+
+
+
+
+
+        // Validate image input field
+        // var imageInput = document.getElementById('vehicle_images');
+        // // let existingImages = document.querySelectorAll('#append_images .image-container input');
+        // var imageFiles = imageInput.files;
+        // // var existingImagesFiles = existingImages.files;
+        // console.log(imageFiles);
+        // // console.log(existingImages);
+        // // Get the existing image input elements
+        // let existingImages = document.querySelectorAll('#append_images .image-container input');
+
+        // // Array to store File objects of existing images
+        // let existingImageFiles = [];
+
+        // // Iterate over each existing image input element
+        // existingImages.forEach(function(input) {
+        //     // Extract the file name from the input value
+        //     let fileName = input.value;
+
+        //     // Create a File object for each file
+        //     let file = new File([], fileName);
+
+        //     // Push the File object into the array
+        //     existingImageFiles.push(file);
+        // });
+
+        // console.log(existingImageFiles);
+
+
+        // if ((imageFiles.length + existingImageFiles.length) < 2) {
+        //     // alert('Please select at least 2 images.');
+        //     invalidFields.push('Please select at least 2 images.');
+        // } else {
+        //     var totalSize = 0;
+        //     var maxSize = 1 * 1024 * 1024; // 1 MB in bytes
+
+        //     // Iterate over the selected files
+
+        //     for (var i = 0; i < imageFiles.length; i++) {
+        //         var file = imageFiles[i];
+
+        //         // Check the size of each file
+        //         totalSize += file.size;
+
+        //         // Check if the size of any file exceeds 1 MB
+        //         if (file.size > maxSize) {
+        //             let errorMsg = "Image size exceeds 1 MB limit.";
+        //             invalidFields.push(errorMsg);
+        //             break; // Exit the loop if any file size exceeds the limit
+        //         }
+        //     }
+        //     for (var i = 0; i < existingImagesFiles.length; i++) {
+        //         var file = existingImagesFiles[i];
+
+        //         // Check the size of each file
+        //         totalSize += file.size;
+
+        //         // Check if the size of any file exceeds 1 MB
+        //         if (file.size > maxSize) {
+        //             let errorMsg = "Image size exceeds 1 MB limit.";
+        //             invalidFields.push(errorMsg);
+        //             break; // Exit the loop if any file size exceeds the limit
+        //         }
+        //     }
+        //     // Check if the total size of all files exceeds 1 MB
+        //     if (totalSize > maxSize) {
+
+        //         invalidFields.push("Image size exceeds 1 MB limit.");
+        //     }
+        // }
+
+
+
+        var imageInput = document.getElementById('vehicle_images');
+        var imageFiles = imageInput.files;
+
+        // Get the existing image input elements
+        let existingImages = document.querySelectorAll('#append_images .image-container input');
+
+        // Array to store File objects of existing images
+        let existingImageFiles = [];
+
+        // Iterate over each existing image input element
+        existingImages.forEach(function(input) {
+            // Extract the file name from the input value
+            let fileName = input.value;
+
+            // Create a File object for each file
+            let file = new File([], fileName);
+
+            // Push the File object into the array
+            existingImageFiles.push(file);
+        });
+
+        // Combine existing and newly uploaded images for validation
+        let allImageFiles = [...imageFiles, ...existingImageFiles];
+
+        if (allImageFiles.length < 2) {
+            invalidFields.push('Please select at least 2 images.');
+        } else {
+            var totalSize = 0;
+            var maxSize = 1 * 1024 * 1024; // 1 MB in bytes
+
+            // Iterate over all image files
+            allImageFiles.forEach(function(file) {
+                // Check the size of each file
+                totalSize += file.size;
+
+                // Check if the size of any file exceeds 1 MB
+                if (file.size > maxSize) {
+                    let errorMsg = "Image size exceeds 1 MB limit.";
+                    invalidFields.push(errorMsg);
+                    return; // Exit the loop if any file size exceeds the limit
+                }
+            });
+            // alert(totalSize);
+
+            // Check if the total size of all files exceeds 1 MB
+            if (totalSize > maxSize) {
+                invalidFields.push("Total size of selected images exceeds 1 MB limit.");
+                alert("Total size of selected images exceeds 1 MB limit.")
+            }
+        }
+
+
+
+        // var timeout;
+
+        // document.getElementById('vehicle_images').addEventListener('change', function(event) {
+        //     clearTimeout(timeout); // Clear any previous timeout
+
+        //     timeout = setTimeout(function() {
+        //         var files = event.target.files; // Get the selected files
+
+        //         // Validate the selected files
+        //         validateImages(files);
+        //     }, 500); // Adjust the timeout duration as needed
+        // });
+
+        // function validateImages(files) {
+        //     // Reset the list of invalid fields
+        //     var invalidFields = [];
+
+        //     // Check if there are less than 2 images
+        //     if (files.length < 2) {
+        //         invalidFields.push('Please select at least 2 images.');
+        //     } else {
+        //         var totalSize = 0;
+        //         var maxSize = 1 * 1024 * 1024; // 1 MB in bytes
+
+        //         // Iterate over the selected files
+        //         for (var i = 0; i < files.length; i++) {
+        //             var file = files[i];
+
+        //             // Check the size of each file
+        //             totalSize += file.size;
+
+        //             // Check if the size of any file exceeds 1 MB
+        //             if (file.size > maxSize) {
+        //                 invalidFields.push("Image size exceeds 1 MB limit.");
+        //                 break; // Exit the loop if any file size exceeds the limit
+        //             }
+        //         }
+
+        //         // Check if the total size of all files exceeds 1 MB
+        //         if (totalSize > maxSize) {
+        //             invalidFields.push("Total size of selected images exceeds 1 MB limit.");
+        //         }
+        //     }
+
+        // If there are invalid fields, show an alert and log them
+        //     if (invalidFields.length > 0) {
+        //         var errorMessage = 'Fill the following fields properly:\n';
+        //         invalidFields.forEach(function(field) {
+        //             errorMessage += '- ' + field + '\n';
+        //         });
+        //         alert(errorMessage);
+        //         console.log(invalidFields);
+        //     } else {
+        //         // If all fields are valid, you can proceed with further actions
+        //         // For example, submit the form or perform any other action
+        //     }
+        // }
+
+
+
+
+
+
+        // If there are invalid fields, show an alert and log them
+        if (invalidFields.length > 0) {
+            var errorMessage = 'Fill the following fields properly:\n';
+            // invalidFields.forEach(function(field) {
+            //     errorMessage += '- ' + (field.placeholder || field.title) + '\n';
+            // });
+            invalidFields.forEach(function(field) {
+                errorMessage += '- ' + (typeof field === 'string' ? field : (field.placeholder || field.title)) + '\n';
+            });
+            alert(errorMessage);
+            console.log(invalidFields);
+        } else {
+            // If all fields are valid, submit the form
+            document.getElementById('registration_form').submit();
+        }
+    });
+    document.getElementById('save-btn-main').addEventListener('click', function(e) {
+        e.preventDefault();
+        // Reset the list of invalid fields
+        var invalidFields = [];
+
+        // Validate text and number input fields
+        allInputs.forEach(function(inputElement) {
+            // Check if input type is 'text' or 'number'
+            if (inputElement.type === 'text') {
+                // Define a regular expression to match special characters
+                var specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+                // Check if the input value contains any special characters
+                if (specialCharacters.test(inputElement.value)) {
+                    invalidFields.push(inputElement); // Add the invalid field to the list
+                }
+            }
+        });
+
+        // Validate image input field
+        // var imageInput = document.getElementById('vehicle_images');
+        // // let existingImages = document.querySelectorAll('#append_images .image-container input');
+        // var imageFiles = imageInput.files;
+        // // var existingImagesFiles = existingImages.files;
+        // console.log(imageFiles);
+        // // console.log(existingImages);
+        // // Get the existing image input elements
+        // let existingImages = document.querySelectorAll('#append_images .image-container input');
+
+        // // Array to store File objects of existing images
+        // let existingImageFiles = [];
+
+        // // Iterate over each existing image input element
+        // existingImages.forEach(function(input) {
+        //     // Extract the file name from the input value
+        //     let fileName = input.value;
+
+        //     // Create a File object for each file
+        //     let file = new File([], fileName);
+
+        //     // Push the File object into the array
+        //     existingImageFiles.push(file);
+        // });
+
+        // console.log(existingImageFiles);
+
+
+        // if ((imageFiles.length + existingImageFiles.length) < 2) {
+        //     // alert('Please select at least 2 images.');
+        //     invalidFields.push('Please select at least 2 images.');
+        // } else {
+        //     var totalSize = 0;
+        //     var maxSize = 1 * 1024 * 1024; // 1 MB in bytes
+
+        //     // Iterate over the selected files
+
+        //     for (var i = 0; i < imageFiles.length; i++) {
+        //         var file = imageFiles[i];
+
+        //         // Check the size of each file
+        //         totalSize += file.size;
+
+        //         // Check if the size of any file exceeds 1 MB
+        //         if (file.size > maxSize) {
+        //             let errorMsg = "Image size exceeds 1 MB limit.";
+        //             invalidFields.push(errorMsg);
+        //             break; // Exit the loop if any file size exceeds the limit
+        //         }
+        //     }
+        //     for (var i = 0; i < existingImagesFiles.length; i++) {
+        //         var file = existingImagesFiles[i];
+
+        //         // Check the size of each file
+        //         totalSize += file.size;
+
+        //         // Check if the size of any file exceeds 1 MB
+        //         if (file.size > maxSize) {
+        //             let errorMsg = "Image size exceeds 1 MB limit.";
+        //             invalidFields.push(errorMsg);
+        //             break; // Exit the loop if any file size exceeds the limit
+        //         }
+        //     }
+        //     // Check if the total size of all files exceeds 1 MB
+        //     if (totalSize > maxSize) {
+
+        //         invalidFields.push("Image size exceeds 1 MB limit.");
+        //     }
+        // }
+
+
+
+        var imageInput = document.getElementById('vehicle_images');
+        var imageFiles = imageInput.files;
+
+        // Get the existing image input elements
+        let existingImages = document.querySelectorAll('#append_images .image-container input');
+
+        // Array to store File objects of existing images
+        let existingImageFiles = [];
+
+        // Iterate over each existing image input element
+        existingImages.forEach(function(input) {
+            // Extract the file name from the input value
+            let fileName = input.value;
+
+            // Create a File object for each file
+            let file = new File([], fileName);
+
+            // Push the File object into the array
+            existingImageFiles.push(file);
+        });
+
+        // Combine existing and newly uploaded images for validation
+        let allImageFiles = [...imageFiles, ...existingImageFiles];
+
+        if (allImageFiles.length < 2) {
+            invalidFields.push('Please select at least 2 images.');
+        } else {
+            var totalSize = 0;
+            var maxSize = 1 * 1024 * 1024; // 1 MB in bytes
+
+            // Iterate over all image files
+            allImageFiles.forEach(function(file) {
+                // Check the size of each file
+                totalSize += file.size;
+
+                // Check if the size of any file exceeds 1 MB
+                if (file.size > maxSize) {
+                    let errorMsg = "Image size exceeds 1 MB limit.";
+                    invalidFields.push(errorMsg);
+                    return; // Exit the loop if any file size exceeds the limit
+                }
+            });
+            // alert(totalSize);
+
+            // Check if the total size of all files exceeds 1 MB
+            if (totalSize > maxSize) {
+                invalidFields.push("Total size of selected images exceeds 1 MB limit.");
+                alert("Total size of selected images exceeds 1 MB limit.")
+            }
+        }
+
+
+
+        // var timeout;
+
+        // document.getElementById('vehicle_images').addEventListener('change', function(event) {
+        //     clearTimeout(timeout); // Clear any previous timeout
+
+        //     timeout = setTimeout(function() {
+        //         var files = event.target.files; // Get the selected files
+
+        //         // Validate the selected files
+        //         validateImages(files);
+        //     }, 500); // Adjust the timeout duration as needed
+        // });
+
+        // function validateImages(files) {
+        //     // Reset the list of invalid fields
+        //     var invalidFields = [];
+
+        //     // Check if there are less than 2 images
+        //     if (files.length < 2) {
+        //         invalidFields.push('Please select at least 2 images.');
+        //     } else {
+        //         var totalSize = 0;
+        //         var maxSize = 1 * 1024 * 1024; // 1 MB in bytes
+
+        //         // Iterate over the selected files
+        //         for (var i = 0; i < files.length; i++) {
+        //             var file = files[i];
+
+        //             // Check the size of each file
+        //             totalSize += file.size;
+
+        //             // Check if the size of any file exceeds 1 MB
+        //             if (file.size > maxSize) {
+        //                 invalidFields.push("Image size exceeds 1 MB limit.");
+        //                 break; // Exit the loop if any file size exceeds the limit
+        //             }
+        //         }
+
+        //         // Check if the total size of all files exceeds 1 MB
+        //         if (totalSize > maxSize) {
+        //             invalidFields.push("Total size of selected images exceeds 1 MB limit.");
+        //         }
+        //     }
+
+        // If there are invalid fields, show an alert and log them
+        //     if (invalidFields.length > 0) {
+        //         var errorMessage = 'Fill the following fields properly:\n';
+        //         invalidFields.forEach(function(field) {
+        //             errorMessage += '- ' + field + '\n';
+        //         });
+        //         alert(errorMessage);
+        //         console.log(invalidFields);
+        //     } else {
+        //         // If all fields are valid, you can proceed with further actions
+        //         // For example, submit the form or perform any other action
+        //     }
+        // }
+
+
+
+
+
+
+
+
+        // If there are invalid fields, show an alert and log them
+        if (invalidFields.length > 0) {
+            var errorMessage = 'Fill the following fields properly:\n';
+            // invalidFields.forEach(function(field) {
+            //     errorMessage += '- ' + (field.placeholder || field.title) + '\n';
+            // });
+            invalidFields.forEach(function(field) {
+                errorMessage += '- ' + (typeof field === 'string' ? field : (field.placeholder || field.title)) + '\n';
+            });
+            alert(errorMessage);
+            // console.log(invalidFields);
+        } else {
+            // If all fields are valid, submit the form
+            document.getElementById('registration_form').submit();
+        }
     });
 </script>
+
+
+<!-- <script>
+    let check = true; // Initially set to true assuming all fields are valid
+    let invalidField;
+    let allInputs = document.querySelectorAll('input');
+
+    // Loop through all input fields to check for special characters
+    for (let i = 0; i < allInputs.length; i++) {
+        // Check if input type is 'text' or 'number'
+        if (allInputs[i].type === 'text' || allInputs[i].type === 'number') {
+            // Define a regular expression to match special characters
+            let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+            // Check if the input value contains any special characters
+            if (specialCharacters.test(allInputs[i].value)) {
+                check = false; // Set to false if special characters found
+                invalidField = allInputs[i];
+                break; // Exit loop if a special character is found
+            }
+        }
+    }
+
+    // Function to validate selected images
+    function validateImages(files) {
+        let invalidFields = [];
+
+        // Check if there are less than 2 images
+        if (files.length < 2) {
+            invalidFields.push('Please select at least 2 images.');
+        } else {
+            let totalSize = 0;
+            const maxSize = 1 * 1024 * 1024; // 1 MB in bytes
+
+            // Iterate over the selected files
+            for (let i = 0; i < files.length; i++) {
+                let file = files[i];
+
+                // Check the size of each file
+                totalSize += file.size;
+
+                // Check if the size of any file exceeds 1 MB
+                if (file.size > maxSize) {
+                    invalidFields.push("Image size exceeds 1 MB limit.");
+                    break; // Exit the loop if any file size exceeds the limit
+                }
+            }
+
+            // Check if the total size of all files exceeds 1 MB
+            if (totalSize > maxSize) {
+                invalidFields.push("Total size of selected images exceeds 1 MB limit.");
+            }
+        }
+
+        return invalidFields;
+    }
+
+    // Event listener for the save button click
+    document.getElementById('save-btn').addEventListener('click', function() {
+        let invalidFields = [];
+
+        // Check if any input fields have special characters
+        if (!check) {
+            invalidFields.push("Input field contains special characters.");
+        }
+
+        // Validate image input field
+        let imageInput = document.getElementById('vehicle_images');
+        let imageFiles = imageInput.files;
+        let imageValidationResult = validateImages(imageFiles);
+        invalidFields = invalidFields.concat(imageValidationResult);
+
+        // If there are invalid fields, show an alert and log them
+        if (invalidFields.length > 0) {
+            let errorMessage = 'Fill the following fields properly:\n';
+            invalidFields.forEach(function(field) {
+                errorMessage += '- ' + field + '\n';
+            });
+            alert(errorMessage);
+            console.log(invalidFields);
+        } else {
+            // If all fields are valid, submit the form
+            document.getElementById('registration_form').submit();
+        }
+    });
+</script> -->
+
+
 <script>
     jQuery(document).ready(function($) {
         document.getElementById('vehicle_images').addEventListener('change', preview_images_upload, false);
@@ -1966,4 +2752,30 @@ require_once './vehicle_options.php';
         // Set selected theme on page refresh
         $("#theme_selector").change();
     });
+</script>
+<script>
+    // function checkForSpecialCharacters(inputElement) {
+    //     // Get the input value
+    //     var inputValue = inputElement.value;
+
+    //     // Define a regular expression to match special characters
+    //     var specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+    //     // Check if the input value contains any special characters
+    //     if (specialCharacters.test(inputValue)) {
+    //         alert("Special characters are not allowed!  23");
+    //         // You can take any other action here, like clearing the input field or displaying a message
+    //         // For example: inputElement.value = "";
+    //     }
+    // }
+
+    // // Get all input elements on the page
+    // var inputElements = document.querySelectorAll('input');
+
+    // // Attach the function to the onchange event of each input field
+    // inputElements.forEach(function(inputElement) {
+    //     inputElement.onchange = function() {
+    //         checkForSpecialCharacters(inputElement);
+    //     };
+    // });
 </script>
