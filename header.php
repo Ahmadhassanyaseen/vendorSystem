@@ -21,11 +21,11 @@
     <script type="text/javascript" src="js/widget.js"></script>
     <script type="text/javascript" src="js/datepicker.js"></script>
     <script type="text/javascript" src="js/vendors_js.js"></script>
-<style>
-    .caret{
-        display: none!important;
-    }
-</style>
+    <style>
+        .caret {
+            display: none !important;
+        }
+    </style>
     <?php
     if (isset($page) && $page == 'vehicle') {
     ?>
@@ -140,6 +140,8 @@
     <link rel="stylesheet" href="./css/profile.css">
     <link rel="stylesheet" href="./css//vehicle.css">
     <link rel="stylesheet" href="./system/tailwind_theme/tailwind.css">
+    <link href='fullcalendar/packages/core/main.css' rel='stylesheet' />
+    <link href='fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </head>
