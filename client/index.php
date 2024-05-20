@@ -544,11 +544,15 @@ $costperperson = $toal_trip_cost / $lead[0]['numberofpassengers_c'];
                         // echo "<br/>";
                         // echo "<br/>";
                         // $quotedPrice = $lead[0]['servicelength_c'] * $quoted_vehicle['base_hourly_rate'];
-                        $quotedPrice = $quote_data['data']['quoted_price_with_profit_c'];
+                        $quoted_total_trip_cost = $quote_data['data']['quoted_price_with_profit_c'];
 
-                        $quoted_trip_fuel = $quotedPrice * $fuelCharge;
-                        $quoted_trip_gratuity = $quotedPrice * $gratuityCharge;
-                        $quoted_total_trip_cost = $quotedPrice + $quoted_trip_fuel + $quoted_trip_gratuity + $mileage;
+                        $quotedPrice = ($quoted_total_trip_cost - $mileage)/ (1 + ($quoted_vehicle['fuel_surcharge_percentage'] / 100) +  ($quoted_vehicle['driver_gratuity_percentage'] / 100));
+
+                        $quoted_trip_fuel = $quotedPrice * ( $quoted_vehicle['fuel_surcharge_percentage'] /100);
+                        // $quoted_trip_fuel = $quotedPrice * $fuelCharge;
+                        // $quoted_trip_gratuity = $quotedPrice * $gratuityCharge;
+                        $quoted_trip_gratuity = $quotedPrice * ($quoted_vehicle['driver_gratuity_percentage'] / 100);
+                        // $quoted_total_trip_cost = $quotedPrice + $quoted_trip_fuel + $quoted_trip_gratuity + $mileage;
 
                         $quoted_costperperson = $quoted_total_trip_cost / $lead[0]['numberofpassengers_c'];
                 ?>
