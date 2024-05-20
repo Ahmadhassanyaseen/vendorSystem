@@ -18,7 +18,7 @@ if (isset($_REQUEST['vehicle']) && !empty($_REQUEST['vehicle'])) {
     $result_data = json_decode($response, true);
     if (isset($result_data['CURL_RESULT']) && $result_data['CURL_RESULT'] == "success") {
         unset($_SESSION['VNDR']['VEHICLES'][$data["id"]]);
-       // header("Location:dashboard.php");
+       header("Location:vehicle.php");
         return $result_data['CURL_RESULT'];
     }else{
         echo 'Failed to delete vehicle. Try again later or contact Administrator.';
