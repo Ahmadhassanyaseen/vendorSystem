@@ -590,13 +590,19 @@ $costperperson = $toal_trip_cost / $lead[0]['numberofpassengers_c'];
                             $vehicle_image = explode(',', $quoted_vehicle['images']);
                             // echo "<br/>";
                             // echo "<br/>";
+                            echo $quoted_vehicle['fuel_surcharge_percentage'];
+                            echo $quoted_vehicle['driver_gratuity_percentage'];
                             // $quotedPrice = $lead[0]['servicelength_c'] * $quoted_vehicle['base_hourly_rate'];
-                            $quotedPrice = $quote_data['data']['quoted_price_with_profit_c'];
+                            $fuelSurcharge = ($quoted_vehicle['fuel_surcharge_percentage'] / 100);
+                            $gratuitySurcharge  =  ($quoted_vehicle['driver_gratuity_percentage'] / 100);
+                            $quotedPrice = ($quote_data['data']['quoted_price_with_profit_c'] - $mileage) / (1 + $fuelSurcharge + $gratuitySurcharge);
+                            echo (1 + $quoted_vehicle['fuel_surcharge_percentage'] + $quoted_vehicle['driver_gratuity_percentage']);
                            
                             $quotedHourlyRate = $quotedPrice / $lead[0]['numberofpassengers_c'];
-                            $quoted_trip_fuel = $quotedPrice * $fuelCharge;
-                            $quoted_trip_gratuity = $quotedPrice * $gratuityCharge;
-                            $quoted_total_trip_cost = $quotedPrice + $quoted_trip_fuel + $quoted_trip_gratuity + $mileage;
+                            $quoted_trip_fuel = $quotedPrice * $fuelSurcharge;
+                            $quoted_trip_gratuity = $quotedPrice *  $gratuitySurcharge;
+                            $quoted_total_trip_cost = $quote_data['data']['quoted_price_with_profit_c'];
+                            // $quoted_total_trip_cost = $quotedPrice + $quoted_trip_fuel + $quoted_trip_gratuity + $mileage;
 
                             $quoted_costperperson = $quoted_total_trip_cost / $lead[0]['numberofpassengers_c'];
                 ?>
@@ -619,14 +625,14 @@ $costperperson = $toal_trip_cost / $lead[0]['numberofpassengers_c'];
                                             <p class="mx-auto w-80">Vehicle Model :&nbsp;&nbsp;<?php echo $quoted_vehicle['vehicle_model']; ?></p>
                                         </div>
                                         <div class="mx-auto shadow-2xl text-center px-4 w-full md:w-1/2">
-                                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-900">Hourly Rate: @ $ <?php echo $quotedHourlyRate; ?> Per Hour</h2>
-                                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-900">Subtotal :&nbsp;$<?php echo $quotedPrice; ?></h2>
-                                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-400">+ Fuel : $<?php echo $quoted_trip_fuel; ?></h2>
-                                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-400">+ Mileage : $<?php echo $mileage; ?></h2>
-                                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-400">+ Gratuity : $<?php echo $quoted_trip_gratuity; ?></h2>
-                                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-400">Price Per Person Breakdown: $<?php echo $quoted_costperperson; ?></h2>
+                                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-900">Hourly Rate: @ $ <?php echo number_format($quotedHourlyRate , 2); ?> Per Hour</h2>
+                                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-900">Subtotal :&nbsp;$<?php echo number_format($quotedPrice, 2); ?></h2>
+                                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-400">+ Fuel : $<?php echo number_format($quoted_trip_fuel, 2); ?></h2>
+                                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-400">+ Mileage : $<?php echo number_format($mileage, 2); ?></h2>
+                                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-400">+ Gratuity : $<?php echo number_format($quoted_trip_gratuity, 2); ?></h2>
+                                            <h2 class="font-bold mx-auto pt-6 text-2xl text-gray-400">Price Per Person Breakdown: $<?php echo number_format($quoted_costperperson, 2); ?></h2>
                                             <h2 class="font-bold mx-auto pt-6 text-3xl text-LogoGold-500 text-dfca8b-500">DEPOSIT AMOUNT : 50%</h2>
-                                            <h2 class="font-extrabold mx-auto pt-6 text-3xl text-65d5e2-500 text-LogoBlue-500">TOTAL TRIP COST : $<?php echo $quoted_total_trip_cost; ?><br><br><br></h2>
+                                            <h2 class="font-extrabold mx-auto pt-6 text-3xl text-65d5e2-500 text-LogoBlue-500">TOTAL TRIP COST : $<?php echo number_format($quoted_total_trip_cost, 2); ?><br><br><br></h2>
                                         </div>
                                     </div>
 
