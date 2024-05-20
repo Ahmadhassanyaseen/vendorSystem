@@ -5,7 +5,7 @@ require_once './header.php';
 require_once './header_nav.php';
 // Assuming $data is the array you provided
 $data = $_SESSION;
-// print_r($_SESSION['VNDR']['VEHICLES']);
+// print_r($_SESSION['VNDR']);
 
 
 // $images = array();
@@ -34,7 +34,24 @@ $data = $_SESSION;
 // foreach ($images as $vindx => $vData) {
 //     $_SESSION['VNDR']['VEHICLES'][$vindx]['images'] = $vData['images'];
 // }
-
+$data["vndid"] = $_SESSION['VNDR']['id'];
+$data["method"] = "fetchVndVehiclesNew";
+$curl = curl_init($crm_url);
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+$response = curl_exec($curl);
+// echo $response;
+$result_data = json_decode($response, true);
+$vehicle_data = $result_data;
+// print_r($vehicle_data);
+// foreach($vehicle_data as $vehicle){
+//     print_r($vehicle);
+//     echo "<br>";
+//     echo "<br>";
+//     echo "<br>";
+// }
 
 ?>
 
@@ -235,11 +252,14 @@ $data = $_SESSION;
             <tbody>
                 <?php
                 // if (isset($vehicle_data))
-                if (isset($_SESSION['VNDR']['VEHICLES'])) { //print_r($_SESSION['VNDR']['email1']);
+                if (isset($vehicle_data)) { //print_r($_SESSION['VNDR']['email1']);
                     $count = 0;
-                    foreach ($_SESSION['VNDR']['VEHICLES'] as $vindx => $vData) {
-                ?> <?php if (!empty($vData['name'])) : ?>
+                    foreach ($vehicle_data as $vindx => $vData) {
+                        // print_r($vData['interior_style']);
+                        // echo "<br>";
+                ?> <?php if (!empty($vData['name']) && !empty($vData['interior_style'])) : ?>
                             <tr id="tr-id-<?php echo $count; ?>" class="<?php
+                           
                                                                         if ($vData['published_c'] == 'Yes')
                                                                             echo 'tr-class-2';
                                                                         else
@@ -253,7 +273,7 @@ $data = $_SESSION;
                                     // echo "<br/>";
                                     // print_r($vData['images']);
                                     $images1 = explode(',', $vData['images']);
-                                    // print_r($images[0]);
+                                    // print_r($images1);
                                     $images = array();
                                     $i = 0;
                                     while ($i < count($images1)) {
