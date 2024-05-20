@@ -227,70 +227,7 @@ $_SESSION['VNDR']['VEHICLES'] = $result_data;
         }
     }
 
-    .edit-button {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        background-color: rgb(20, 20, 20);
-        border: none;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
-        cursor: pointer;
-        transition-duration: 0.3s;
-        overflow: hidden;
-        position: relative;
-        text-decoration: none !important;
-    }
-
-    .edit-svgIcon {
-        width: 17px;
-        transition-duration: 0.3s;
-    }
-
-    .edit-svgIcon path {
-        fill: white;
-    }
-
-    .edit-button:hover {
-        width: 80px;
-        border-radius: 50px;
-        transition-duration: 0.3s;
-        /* background-color: rgb(255, 69, 69); */
-        background-color: #e3b04b;
-        align-items: center;
-    }
-
-    .edit-button:hover .edit-svgIcon {
-        width: 20px;
-        transition-duration: 0.3s;
-        transform: translateY(60%);
-        -webkit-transform: rotate(360deg);
-        -moz-transform: rotate(360deg);
-        -o-transform: rotate(360deg);
-        -ms-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-
-    .edit-button::before {
-        display: none;
-        content: "Edit";
-        color: white;
-        transition-duration: 0.3s;
-        font-size: 2px;
-    }
-
-    .edit-button:hover::before {
-        display: block;
-        padding-right: 10px;
-        font-size: 13px;
-        opacity: 1;
-        transform: translateY(0px);
-        transition-duration: 0.3s;
-    }
-
+  
     .clb {
         color: #000 !important;
     }
@@ -313,15 +250,7 @@ $_SESSION['VNDR']['VEHICLES'] = $result_data;
         --bs-table-bg-type: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity)) !important;
     }
 
-    #editBtnOverlay {
-        width: 35px;
-        height: 35px;
-        position: absolute;
-        background: #fff;
-        z-index: 9;
-        opacity: 0.4;
-        border-radius: 50%;
-    }
+    
 
     #ipt_fsqm_form_wrap_56>div.container.h-auto.me-auto.mh-100.ms-auto.mw-100.pe-5.ps-5.w-auto.p48>div.container.h-auto.me-auto.mh-100.ms-auto.mw-100.w-auto.text-center.mb-4.mt-5.dash>div.bootstrap-table>div.fixed-table-container>div.fixed-table-pagination>div.pull-left.pagination-detail>span.page-list>span>ul>li {
         box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
@@ -340,7 +269,7 @@ $_SESSION['VNDR']['VEHICLES'] = $result_data;
     <br>
     <!-- <h3 style="margin:20px 0;">Leads</h3> -->
     <div>
-        <h2 class="fw-bolder me-auto ms-auto mt-5 text-primary text-start text-uppercase" data-pg-name="vehiclelist">All Leads<input class="srcIn src2" placeholder="Vendor Search" data-pg-name="super admin search"></h2>
+        <h2 class="fw-bolder me-auto ms-auto mt-5 text-primary text-start text-uppercase" data-pg-name="vehiclelist">All Lead</h2>
     </div>
     <div class="container h-auto me-auto mh-100 ms-auto mw-100 w-auto text-center mb-4 mt-5 dash" style=" width: 100%!important; padding: 0; float: left; border: 1px solid #e3b04b; border-top: none; box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12); border-radius:10px;">
         <table data-toggle="table" data-classes="table table-hover table-condensed" data-striped="true" data-sort-name="DateEntered" data-sort-order="desc" data-pagination="true">
@@ -374,6 +303,7 @@ $_SESSION['VNDR']['VEHICLES'] = $result_data;
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
                 $response = curl_exec($curl);
                 $result_data = json_decode($response, true);
+                // $_SESSION['VNDR']['allLeads'] = $result_data;
 
                 // foreach ($result_data as $results) {
                 //     print_r($results);
@@ -406,6 +336,9 @@ $_SESSION['VNDR']['VEHICLES'] = $result_data;
                         // echo '<br/>';
                         $quoteStatus = $singleLeadQuoteDetails['data']['quote_status_c'];
                         $quoteStatusTooltip = $singleLeadQuoteDetails['data']['rejection_reason_c'];
+                        if (!$quoteStatusTooltip) {
+                            $quoteStatusTooltip = 'Pending';
+                        }
                     } else {
                         $quoteStatus = 'No Quote Sent';
                         $quoteStatusTooltip = 'No Quote Sent';
@@ -430,18 +363,40 @@ $_SESSION['VNDR']['VEHICLES'] = $result_data;
 
 
                     // tset
+                    $dateString = $result_data[$i]['eventdate_c'];
+                    $timestamp = strtotime($dateString);
+                    $newDateFormat = date('m-d-Y', $timestamp);
+                    if ($result_data[$i]['status'] == "New") {
+                        $statusToolTip = 'Not Assigned to Sales Rep, Waiting on Quote';
+                    } elseif ($result_data[$i]['status'] == "In Process") {
+                        $statusToolTip = 'Waiting on Quote';
+                    } elseif ($result_data[$i]['status'] == "Assigned") {
+                        $data['id'] = $result_data[$i]['assigned_user_id'];
+                        $data["method"] = "fetchAssignedUser";
+                        $curl = curl_init($crm_url);
+                        curl_setopt($curl, CURLOPT_POST, true);
+                        curl_setopt($curl, CURLOPT_HEADER, false);
+                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                        $response = curl_exec($curl);
+                        // echo $response;
+                        // $vendorEmail = json_decode($response, true);
+                        $statusToolTip = 'Assigned to Sales Rep';
+                    }elseif($result_data[$i]['status'] == "Dead"){
+                        $statusToolTip = 'Out Of Date';
+                    }
 
                     echo '<tr id="tr-id-tr-class-2" >';
                     echo '<td style="font-weight:700!important;" class="' . $bg . '">' . $result_data[$i]['opertunityid_c'] . '</td>';
-                    echo '<td class="' . $bg . '">' . $result_data[$i]['eventdate_c'] . '</td>';
+                    echo '<td class="' . $bg . '">' . $newDateFormat . '</td>';
                     echo '<td class="' . $bg . '">' . $result_data[$i]['quoted_c'] . '</td>';
                     echo '<td class="' . $bg . '">' . $result_data[$i]['first_name'] . '</td>';
                     echo '<td class="' . $bg . '">' . $result_data[$i]['last_name'] . '</td>';
                     echo '<td class="' . $bg . '">' . $result_data[$i]['distance_c'] . '</td>';
                     echo '<td class="' . $bg . '">' . $result_data[$i]['duration_c'] . '</td>';
-                    echo '<td class="' . $bg . '"><a class="clb" href="lead_quotes.php?opertunity_id=' . $result_data[$i]['opertunityid_c'] . '" >' . $result_data[$i]['status'] . '</a></td>';
+                    echo '<td class="' . $bg . '"><a class="clb" href="lead_quotes.php?opertunity_id=' . $result_data[$i]['opertunityid_c'] . '" title="' . $statusToolTip . '">' . $result_data[$i]['status'] . '</a></td>';
                     // echo '<td class="' . $bg . '">' . $result_data[$i]['sent_lead_count'] . '</td>';
-                    echo '<td class="' . $bg . '"><a class="clb" href="lead_quotes.php?opertunity_id=' . $result_data[$i]['opertunityid_c'] . '" title="'.$quoteStatusTooltip.'">' . $quoteStatus . '</a></td>';
+                    echo '<td class="' . $bg . '"><a class="clb" href="lead_quotes.php?opertunity_id=' . $result_data[$i]['opertunityid_c'] . '" title="' . $quoteStatusTooltip . '">' . $quoteStatus . '</a></td>';
                     echo '<td class="d-flex align-items-center  justify-content-center w-100 ' . $bg . '">
                     ' . $btnDis . '
                     <a href="editLead_vendor1.php?opertunityid_c=' . $result_data[$i]['opertunityid_c'] . '" class="edit-button">
