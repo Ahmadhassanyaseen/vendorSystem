@@ -7,6 +7,36 @@ require_once './header_nav.php';
 
 $opertunityid_c = $_GET['opertunityid_c'];
 
+$data["vendor_email"] = $_SESSION['VNDR']['username']; //"aslofNH@gmail.com";//"stretchllc.limo@gmail.com";
+$data["vendor_id"] = $_SESSION['VNDR']['id'];
+$data["method"] = "FetchVndLeadsIds";
+$curl = curl_init($crm_url);
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+$response = curl_exec($curl);
+$allLeads = json_decode($response, true);
+// print_r($allLeads);
+$check = false;
+foreach ($allLeads['data'] as $lead) {
+    // print_r($lead['opertunityid_c']);
+    // echo '<br/>';
+    // echo '<br/>';
+    if (
+        $lead['opertunityid_c'] ==
+        $opertunityid_c
+    ) {
+        $check = true;
+        break;
+    }
+}
+if (!$check) {
+    echo '<script>alert("NOT yours");</script>';
+    echo '<script>window.location.href = "dashboard.php";</script>';
+}
+
+
 
 $data["opertunityid_c"] = $opertunityid_c;
 $data["method"] = "FetchSingleLead";
@@ -32,7 +62,7 @@ if (strpos($vehicle_name, "^") !== false) {
     $vehicle_name = str_replace("^", "", $vehicle_name);
 }
 // Loop through the array and echo each key-value pair
-// print_r($opportunities[0]['phone']);
+// print_r($_SESSION['VNDR']['id']);
 
 $data["vndid"] = $opportunities[0]['vnd_vendors_id_c'];
 $data["method"] = "fetchVndVechiles";
@@ -53,10 +83,10 @@ $vehicleData = $result_data;
 // echo "</br>";
 // print_r($vehicleData);
 //  echo $vehicleData[$opportunities[0]['vnd_vendors_id_C']]['name'];
-// foreach ($vehicleData as $key => $value) {
-//     echo $key;
-//     $vehicle[$key] = $value['name'];
-//     echo $vehicle[$key];
+// foreach ($vehicleData as $vehicle) {
+//     print_r($vehicle);
+//     echo '<br>';
+//     echo '<br>';
 //     // echo ' <option value="'..'" data-pg-name="Select a Vechicle" class="bg-yellow-200">Select or Add a Vechicle</option>';
 // }
 
@@ -376,7 +406,7 @@ $leadCharges = json_decode($response, true);
     <div class="bg-gray-500 flex-grow h-px max-w-full"></div>
 </div>
 <div class="border-2  my-10 shadow-2xl text-left row w-100 mx-0">
-    <div class="px-4 col-md-6" style="border-right:2px solid #E5E7EB; border-left:2px solid #E5E7EB">
+    <div class="px-4 col-md-6" style="border-right:2px solid #E5E7EB; border-left:2px solid #E5E7EB; padding: 20px 0px;">
 
         <div class=" text-center h-100 w-100 d-flex align-items-center justify-content-start flex-column">
             <p class="font-extrabold leading-loose text-4xl text-LogoGold-500 text-center uppercase f30 mx-auto pt-6" style="font-weight:800!important;">Update the total trip cost.</p>
@@ -401,7 +431,8 @@ $leadCharges = json_decode($response, true);
 
                 <input type="hidden" name="leadtype_c" value="<?php echo $opportunities[0]['leadtype_c']; ?>">
                 <input type="hidden" name="opertunity_id" value="<?php echo $opertunityid_c; ?>">
-                <!-- <input type="hidden" name="quoted_price" value="<?php echo $opportunities[0]['quoted_c']; ?>" > -->
+                <!-- <input type="hidden" name="quoted_price" value="<?php // echo $opportunities[0]['quoted_c']; 
+                                                                        ?>" > -->
                 <input type="hidden" name="distance" value="<?php echo $opportunities[0]['distance_c']; ?>">
                 <input type="hidden" name="passengerCount" value="<?php echo $opportunities[0]['numberofpassengers_c']; ?>">
                 <input type="hidden" name="distanceTime" value="<?php echo $opportunities[0]['servicelength_c']; ?>">
@@ -411,7 +442,7 @@ $leadCharges = json_decode($response, true);
                     <!-- <option value="SelectVehicle" class="bg-yellow-200 f14 pd-5">Select or Add a Vehicle</option> -->
                     <?php
 
-                    echo "xeno";
+                    // echo "xeno";
 
                     foreach ($vehicleData as $key => $vehicle) {
                         // Initialize $check for each iteration
@@ -448,9 +479,50 @@ $leadCharges = json_decode($response, true);
                     <button class=" bg-yellow-50 border-2 border-gray-900 italic mt-5 px-5 shadow-gray-600 shadow-md text-lg uppercase anv f16" type="submit" name="add_new_vehicle">Add New Vehicle</button>
                 </a>
                 <?php if ($opportunities[0]['status'] == "New") { ?>
-                    <button class="animate-bounce bg-65d5e2-500 bg-LogoGold-500 border-2 border-65d5e2-500 border-gray-500 font-extrabold leading-normal mt-5 mx-auto px-10 py-2 rounded-full shadow-gray-500 shadow-md text-3xl text-center text-gray-50 uppercase f30 hidden" type="button" id="updatePriceBTN">Update Price</button></a>
+                    <button class=" bg-65d5e2-500 bg-LogoGold-500 border-2 border-65d5e2-500 border-gray-500 font-extrabold leading-normal mt-5 mx-auto px-10 py-2 rounded-full shadow-gray-500 shadow-md text-3xl text-center text-gray-50 uppercase f30 hidden" type="button" id="updatePriceBTN">Update Vehicle</button></a>
                 <?php } ?>
+                <form method="POST" action="./update_custom_price.php" id="quotedFormCustom" class="w-100" style="margin-top: 20px;">
 
+                    <input type="hidden" name="lead_id" value="<?php echo $opportunities[0]['id_c']; ?>">
+                    <input type="hidden" name="sent_lead_count" value="<?php echo $opportunities[0]['sent_lead_count']; ?>">
+                    <input type="hidden" name="sent_quote_id" value="<?php echo $opportunities[0]['sent_quote_id_c']; ?>">
+                    <input type="hidden" name="lead_name" value="<?php echo $opportunities[0]['first_name'] . " " . $opportunities[0]['last_name']; ?>">
+                    <input type="hidden" name="lead_mobile" value="<?php echo $opportunities[0]['phone_mobile']; ?>">
+                    <input type="hidden" name="lead_eventdate" value="<?php echo $opportunities[0]['eventdate_c']; ?>">
+                    <input type="hidden" name="lead_eventtype" value="<?php echo $opportunities[0]['eventtype_c']; ?>">
+                    <input type="hidden" name="lead_pickuptime" value="<?php echo $opportunities[0]['pickuptime_c']; ?>">
+                    <input type="hidden" name="lead_pickuplocation" value="<?php echo $opportunities[0]['pickuplocation_c']; ?>">
+                    <input type="hidden" name="lead_location" value="<?php echo $opportunities[0]['location_c']; ?>">
+
+
+                    <input type="hidden" name="vendor_id" value="<?php echo $opportunities[0]['vnd_vendors_id_c']; ?>">
+                    <input type="hidden" name="vehicle_id" value="<?php echo $opportunities[0]['vnd__id_c']; ?>">
+                    <input type="hidden" name="vehicle_type_c" value="<?php echo $opportunities[0]['vehicle_type_c']; ?>">
+                    <input type="hidden" name="vendor_email_c" value="<?php echo $opportunities[0]['vendor_email_c']; ?>">
+                    <input type="hidden" name="vendor_phone_c" value="<?php echo $opportunities[0]['vendor_phone_c']; ?>">
+                    <input type="hidden" name="rate_c" value="<?php echo $opportunities[0]['rate_c']; ?>">
+
+                    <input type="hidden" name="leadtype_c" value="<?php echo $opportunities[0]['leadtype_c']; ?>">
+                    <input type="hidden" name="opertunity_id" value="<?php echo $opertunityid_c; ?>">
+                    <input type="hidden" name="vehicle_id" value="<?php echo $opportunities[0]['vnd_vechiles_id_c']; ?>">
+                    <!-- <input type="hidden" name="quoted_price" value="<?php // echo $opportunities[0]['quoted_c']; 
+                                                                            ?>" > -->
+                    <input type="hidden" name="distance" value="<?php echo $opportunities[0]['distance_c']; ?>">
+                    <input type="hidden" name="passengerCount" value="<?php echo $opportunities[0]['numberofpassengers_c']; ?>">
+                    <input type="hidden" name="distanceTime" value="<?php echo $opportunities[0]['servicelength_c']; ?>">
+                    <input type="number" placeholder="$<?php echo $opportunities[0]['total_trip_cost_c'] ?>" value="" name="updatedPrice" class="text-center" style="max-width: 70%; font-size:16px;" id="updatedPriceCustom">
+                    <br>
+                    <span id="priceError" style="color: red;"></span>
+
+
+
+
+
+                    <div class="d-flex justify-content-center align-items-center flex-column gap-1 ">
+                        <button class="bg-65d5e2-500 bg-LogoGold-500 border-2 border-65d5e2-500 border-gray-500 font-extrabold leading-normal mx-auto px-10 py-2 rounded-full shadow-gray-500 shadow-md text-3xl text-center text-gray-50 uppercase f30 " id="updatePriceBTNCustom" style="margin-top: 20px; " type="submit">Update Price</button>
+
+                    </div>
+                </form>
             </div>
 
         </div>
@@ -519,6 +591,7 @@ $leadCharges = json_decode($response, true);
     let perHourRate = document.getElementById('perHourRate');
     let chooseVehicle = document.getElementById('SelectVehicle');
     let fuel = document.getElementById('fuel');
+    let updatedPriceCustom = document.getElementById('updatedPriceCustom');
     let vehicleName = document.getElementById('vehicleName');
     let vehicleType = document.getElementById('vehicleType');
     let vehicleYear = document.getElementById('vehicleYear');
@@ -528,8 +601,8 @@ $leadCharges = json_decode($response, true);
     let gratuity = document.getElementById('gratuity');
     let subtotal = document.getElementById('subtotal');
     let totalPrice = document.getElementById('totalPrice');
-    let leadCharges = <?php echo json_encode($leadCharges);  ?>
-    // let distanceTime = <?php echo json_encode($opportunities[0]['servicelength_c']);  ?>;
+    let leadCharges = <?php echo json_encode($leadCharges);  ?>;
+    let distanceTime = <?php echo json_encode($opportunities[0]['servicelength_c']);  ?>;
     let distance = <?php echo json_encode($opportunities[0]['distance_c']);  ?>;
     let updatePrice = document.getElementById('updatePriceBTN');
     // console.log(distanceTime);
@@ -537,8 +610,11 @@ $leadCharges = json_decode($response, true);
 
 
     //     // Calculations For Charges
-    let fuelCharge = leadCharges.FuelSarcharge / 100;
-    let gratuityCharge = leadCharges.Gratuity / 100;
+    // let fuelCharge = leadCharges.FuelSarcharge / 100;
+    // let gratuityCharge = leadCharges.Gratuity / 100;
+    let fuelCharge = <?php echo json_encode(intval($single_vehicle_data['fuel_surcharge_percentage']) / 100); ?>;
+    let gratuityCharge = <?php echo json_encode(intval($single_vehicle_data['driver_gratuity_percentage']) / 100); ?>;
+    // let gratuityCharge = leadCharges.Gratuity / 100;
     let trip_Mileage = distance * 2 * leadCharges.ChargesPerMile;
 
 
@@ -555,10 +631,11 @@ $leadCharges = json_decode($response, true);
         let dataVehicleMake = chooseVehicle.options[chooseVehicle.selectedIndex].getAttribute('data-vehicle-make');
         let dataVehicleModel = chooseVehicle.options[chooseVehicle.selectedIndex].getAttribute('data-vehicle-model');
         let dataVehicleYear = chooseVehicle.options[chooseVehicle.selectedIndex].getAttribute('data-vehicle-year');
-        console.log(dataVehicleYear);
+        // console.log(dataVehicleYear);
         let QuotedPrice = <?php echo json_encode($opportunities[0]['servicelength_c']);  ?> * baseHourlyRate;
         let trip_Fuel = QuotedPrice * fuelCharge;
         let trip_Gratuity = QuotedPrice * gratuityCharge;
+        // console.log(trip_Fuel + " " + QuotedPrice + " " + fuelCharge);
 
         baseHourlyRate = parseFloat(baseHourlyRate).toFixed(2);
         trip_Fuel = parseFloat(trip_Fuel).toFixed(2);
@@ -579,6 +656,7 @@ $leadCharges = json_decode($response, true);
         vehicleMake.innerText = dataVehicleMake;
         vehicleModel.innerText = dataVehicleModel;
         vehicleYear.innerText = dataVehicleYear;
+        updatedPriceCustom.setAttribute('placeholder', '$' + QuotedPrice + '.00');;
         // updatePrice.style.display= "block!important";
         updatePrice.classList.remove("hidden");
     });
@@ -596,6 +674,67 @@ $leadCharges = json_decode($response, true);
             if (check) {
 
                 document.getElementById("vehicleForm").submit();
+            }
+        }
+    })
+
+
+    let updatePriceBTNCustom = document.getElementById('updatePriceBTNCustom');
+    let totalPriceXeno = <?php echo json_encode($opportunities[0]['total_trip_cost_c']);  ?>;
+
+    function checkCustomPriceValue() {
+        let updatedPriceCustomValue = parseFloat(updatedPriceCustom.value);
+        if (updatedPriceCustomValue < parseFloat(trip_Mileage) || updatedPriceCustomValue > totalPriceXeno) {
+            alert("Kindly add a valid price between " + parseFloat(trip_Mileage) + " and " + parseFloat(totalPriceXeno));
+            return 0;
+        } else {
+
+            // console.log(updatedPriceCustomValue);
+            // console.log(parseFloat(trip_Mileage));
+
+            let TotalTripCost = parseFloat(updatedPriceCustom.value);
+            trip_Mileage = parseFloat(trip_Mileage).toFixed(2);
+            let QuotedPrice = parseFloat((TotalTripCost - trip_Mileage) / (1 + fuelCharge + gratuityCharge)).toFixed(2);
+
+            let trip_Fuel = QuotedPrice * fuelCharge;
+            let trip_Gratuity = QuotedPrice * gratuityCharge;
+            // console.log(trip_Fuel + " " + QuotedPrice + " " + fuelCharge);
+
+            baseHourlyRate = parseFloat(QuotedPrice / distanceTime).toFixed(2);
+            trip_Fuel = parseFloat(trip_Fuel).toFixed(2);
+            trip_Gratuity = parseFloat(trip_Gratuity).toFixed(2);
+            // TotalTripCost = parseFloat(QuotedPrice) + parseFloat(trip_Mileage) + parseFloat(trip_Fuel) + parseFloat(trip_Gratuity);
+
+            // TotalTripCost = parseFloat(TotalTripCost).toFixed(2);
+            // console.log(typeof(QuotedPrice), typeof(trip_Fuel), typeof(trip_Mileage), typeof(trip_Gratuity), typeof(TotalTripCost));
+            perHourRate.innerText = baseHourlyRate;
+            fuel.innerText = trip_Fuel;
+            gratuity.innerText = trip_Gratuity;
+            subtotal.innerText = QuotedPrice;
+            mileage.innerText = trip_Mileage;
+            totalPrice.innerText = TotalTripCost;
+            return 1;
+        }
+
+    }
+    updatedPriceCustom.addEventListener('change', () => {
+
+        formSubmitCheck = checkCustomPriceValue();
+    })
+
+
+
+    let quotedForm = document.getElementById('quotedFormCustom');
+    console.log(quotedForm);
+    updatePriceBTNCustom.addEventListener('click', function(e) {
+        e.preventDefault();
+        formSubmitCheck = checkCustomPriceValue();
+        if (!formSubmitCheck) {
+            return;
+        } else {
+            let check = confirm("Do you want to change the price?");
+            if (check) {
+                quotedForm.submit();
             }
         }
     })

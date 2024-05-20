@@ -2,7 +2,7 @@
 require_once "./config.php";
 // print_r($_REQUEST);
 $lead_id = $_REQUEST['lead_id'];
-$quotedPrice = $_REQUEST['updatedPrice'];
+$totalPrice = $_REQUEST['updatedPrice'];
 $vehicle_id = $_REQUEST['vehicle_id'];
 $vehicle_name = $_REQUEST['vehicle_name'];
 $vendor_id = $_REQUEST['vendor_id'];
@@ -10,6 +10,19 @@ $quote_id = $_REQUEST['quote_id'];
 $opertunityid_c = $_REQUEST['opertunity_id'];
 $sub_quote_id = $_REQUEST['sub_quote_id'];
 
+
+
+
+$data["vehicle_id"] = $_REQUEST['vehicle_id'];
+$data["method"] = "fetchVehicle";
+$curl = curl_init($crm_url);
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+$response = curl_exec($curl);
+// echo $response;
+$vehicle_data = json_decode($response, true);
 
 
 $data["opertunityid_c"] = $opertunityid_c;
@@ -38,29 +51,36 @@ $response = curl_exec($curl);
 $leadCharges = json_decode($response, true);
 $profit = $leadCharges['Vendor_Percentage'] / 100;
 
-$fuel = $leadCharges['FuelSarcharge'] / 100;
-$gratuity = $leadCharges['Gratuity'] / 100;
+$fuel = $vehicle_data['fuel_surcharge_percentage'] / 100;
+$gratuity = $vehicle_data['driver_gratuity_percentage'] / 100;
 $profit = $leadCharges['Vendor_Percentage'] / 100;
-$QuotedPrice = $quotedPrice;
-$garagecharges = 0;
+
+
+
+
 $trip_Mileage = $distance * 2 * $leadCharges['ChargesPerMile'];
+
+$QuotedPrice = ($totalPrice - $trip_Mileage ) / (1 + $fuel + $gratuity);
+$garagecharges = 0;
 $trip_Fuel = $QuotedPrice * $fuel;
 $trip_Gratuity = $QuotedPrice * $gratuity;
-$TotalTripCost = $QuotedPrice + $trip_Mileage + $trip_Fuel + $trip_Gratuity + $garagecharges;
+$TotalTripCost = $totalPrice;
+// $TotalTripCost = $QuotedPrice + $trip_Mileage + $trip_Fuel + $trip_Gratuity + $garagecharges;
 // $CostPerPerson = $TotalTripCost / $passengerCount;
 $total_profit_c = $TotalTripCost * $profit;
 
 $total_price_with_profit = $TotalTripCost + $total_profit_c;
 
-$quotedPriceWithProfit = ($total_price_with_profit - $trip_Mileage) / ($fuel + $gratuity + 1);
+// $quotedPriceWithProfit = ($total_price_with_profit - $trip_Mileage) / ($fuel + $gratuity + 1);
 
-print_r($quotedPriceWithProfit);
+// print_r($quotedPriceWithProfit);
 
 $data["vendor_id"] = $vendor_id;
 $data["lead_id"] = $lead_id;
 // $data['quoted_c'] = $QuotedPrice;
-$data['quoted_price_with_profit'] = $quotedPriceWithProfit;
-$data['quoted_c'] = $quotedPrice;
+$data['quoted_price_with_profit'] = $total_price_with_profit;
+// $data['quoted_price_with_profit'] = $quotedPriceWithProfit;
+$data['quoted_c'] = $QuotedPrice;
 $data['parent_quote'] = $quote_id;
 $data['vehicle_id'] = $vehicle_id;
 $data['vehicle_c'] = $vehicle_name;
@@ -131,5 +151,5 @@ $response = curl_exec($curl);
 // </script>';
 // header("Location: https://unlimitedcharters.com/vendor24/lead_quotes.php?opertunity_id=" . $opertunityid_c);
 
-
+header('Location: dashboard.php');
 ?>

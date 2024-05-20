@@ -63,8 +63,8 @@ $leadCharges = json_decode($response, true);
 $distance_org = $lead[0]['distance_c'];
 preg_match('/\d+(\.\d+)?/', $distance_org, $matches);
 $distance = floatval($matches[0]);
-$fuelCharges = $leadCharges['FuelSarcharge'] / 100;
-$gratuity = $leadCharges['Gratuity'] / 100;
+$fuelCharges = $vehicle['fuel_surcharge_percentage'] / 100;
+$gratuity = $vehicle['driver_gratuity_percentage'] / 100;
 $quotedMileage = $distance * 2 * $leadCharges['ChargesPerMile'];
 
 $quoted_price = $singleLeadQuoteDetails['data']['quoted_price_c'];
@@ -294,7 +294,7 @@ $costperperson_quoted = $total_trip_cost_quoted / $lead[0]['numberofpassengers_c
                 <input type="hidden" name="sub_quote_id" value="<?php echo $singleLeadQuoteDetails['data']['sub_quote_c'] ?>">
 
                 <!-- <input type="text" name="updatedPrice" class="text-center" style="max-width: 70%; font-size:16px;" id="updatedPrice"> -->
-                <input type="text" placeholder="$<?php echo $quoted_price ?>" value="" name="updatedPrice" class="text-center" style="max-width: 70%; font-size:16px;" id="updatedPrice">
+                <input type="number" placeholder="$<?php echo $quoted_price ?>" value="" name="updatedPrice" class="text-center" style="max-width: 70%; font-size:16px;" id="updatedPrice">
                 <br>
                 <span id="priceError" style="color: red;"></span>
 
@@ -304,7 +304,7 @@ $costperperson_quoted = $total_trip_cost_quoted / $lead[0]['numberofpassengers_c
 
             </form>
             <div class="d-flex justify-content-center align-items-center flex-column gap-1 ">
-                <button class="animate-bounce bg-65d5e2-500 bg-LogoGold-500 border-2 border-65d5e2-500 border-gray-500 font-extrabold leading-normal mt-5 mx-auto px-10 py-2 rounded-full shadow-gray-500 shadow-md text-3xl text-center text-gray-50 uppercase f30 " type="button" id="updatePriceBTN">Update Price</button>
+                <button class="bg-65d5e2-500 bg-LogoGold-500 border-2 border-65d5e2-500 border-gray-500 font-extrabold leading-normal mt-5 mx-auto px-10 py-2 rounded-full shadow-gray-500 shadow-md text-3xl text-center text-gray-50 uppercase f30 " type="button" id="updatePriceBTN">Update Price</button>
 
             </div>
 
@@ -343,75 +343,82 @@ $costperperson_quoted = $total_trip_cost_quoted / $lead[0]['numberofpassengers_c
     let newTotalPrice = document.getElementById('newTotalPrice');
     let serviceLength = <?php echo $lead[0]['servicelength_c']; ?>
 
-    let fuelPercentage = <?php echo $fuelCharges;  ?>
+    let fuelPercentage = <?php echo $fuelCharges;  ?>;
+    let gratuityPercentage = <?php echo $gratuity;  ?>;
 
-
-    // console.log(<?php //echo $fuelCharges; 
-                    ?>)
-    // console.log(fuelPercentage);
-    // console.log(<?php //echo $gratuity;  
-                    ?>);
-
+    let totalTripCost = <?php echo  $total_trip_cost_quoted; ?>;
+    let mileage = <?php echo $quotedMileage;
+                    ?>;
 
     let formSubmitCheck = false;
-    document.getElementById('updatedPrice').addEventListener('input', function() {
-        var priceInput = this.value.trim();
+    let updatePrice = document.getElementById('updatedPrice');
+
+    function updatePriceCheck() {
+
+        var priceInput = updatePrice.value.trim();
         var priceError = document.getElementById('priceError');
 
         var priceValue = parseInt(priceInput, 10);
+        totalTripCost = parseInt(totalTripCost, 10);
+        mileage = parseInt(mileage, 10);
         // Check if input contains only numbers
-        if (!/^\d*$/.test(priceInput)) {
-            priceError.textContent = 'Price should contain only numbers';
+        // console.log(priceValue);
+        // console.log(totalTripCost);
+        // console.log(mileage);
+        if (priceInput > totalTripCost || priceInput < mileage) {
+            alert('Price should be between $' + totalTripCost + ' and  $' + mileage);
             formSubmitCheck = false;
-            return;
-        } else if (priceValue >= <?php echo  $quoted_price; ?>) {
-            priceError.textContent = 'Price should be lower than $<?php echo  $quoted_price; ?>';
-            formSubmitCheck = false;
+            return 0;
 
         } else {
-            priceError.textContent = '';
-            formSubmitCheck = true;
-        }
+
+            
+        
 
 
         newHourlyRate.textContent = (priceValue / serviceLength).toFixed(2);
-        newFuelRate.textContent = (priceValue * fuelPercentage).toFixed(2);
+        let quotedPrice = (priceValue - mileage) / (1 + gratuityPercentage + fuelPercentage)
+
+
+        newFuelRate.textContent = (quotedPrice * fuelPercentage).toFixed(2);
         newMileageRate.textContent = (<?php echo $quotedMileage;
                                         ?>).toFixed(2);
-        newGratuityRate.textContent = (priceValue * <?php echo $gratuity;  ?>).toFixed(2);
-        newSubtotalRate.textContent = (priceValue).toFixed(2);
+        newGratuityRate.textContent = (quotedPrice * <?php echo $gratuity;  ?>).toFixed(2);
+        newSubtotalRate.textContent = (quotedPrice).toFixed(2);
         // newTotalPrice.textContent = priceValue + newFuelRate.textContent + newMileageRate.textContent + newGratuityRate.textContent;
 
 
         // Convert string values to numbers using parseFloat()
-        const price = parseFloat(priceValue);
+        const price = parseFloat(quotedPrice);
         const fuelRate = parseFloat(newFuelRate.textContent);
         const mileageRate = parseFloat(newMileageRate.textContent);
         const gratuityRate = parseFloat(newGratuityRate.textContent);
 
         // Add the numeric values
-        const total = price + fuelRate + mileageRate + gratuityRate;
+        // const total = price + fuelRate + mileageRate + gratuityRate;
 
         // Convert the total back to a string for display
-        const totalString = total.toFixed(2);
+        const totalString = priceValue.toFixed(2);
         newTotalPrice.textContent = totalString;
 
         // Display the total
         // console.log(totalString); // or wherever you want to display it
-
-
+        return 1;
+        }
+    }
+    updatePrice.addEventListener('change', function() {
+        updatePriceCheck();
     });
 
 
     let updatedPrice = document.getElementById('updatedPrice');
     let updatePriceBTN = document.getElementById('updatePriceBTN');
     let quotedForm = document.getElementById('quotedForm');
-    updatePriceBTN.addEventListener('click', function() {
-        if (!formSubmitCheck) {
-            alert('Please enter valid price');
-        } else if (updatedPrice.value == '') {
-            alert('Please enter price');
-        } else {
+    updatePriceBTN.addEventListener('click', function(e) {
+e.preventDefault();
+
+let formSubmitCheck = updatePriceCheck();
+        if (formSubmitCheck) {
             let check = confirm("Do you want to change the price?");
             if (check) {
                 quotedForm.submit();
